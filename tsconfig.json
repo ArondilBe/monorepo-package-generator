@@ -1,20 +1,17 @@
 {
   "compilerOptions": {
-    "module": "ESNext",
+    "module": "NodeNext",
     "declaration": true,
-    "moduleResolution": "Node",
-    "target": "ES6",
+    "moduleResolution": "NodeNext",
     "sourceMap": true,
     "strict": true,
     "strictNullChecks": true,
-    "sourceRoot": "src",
-    "outDir": "esm",
-    "composite": true,
-    "incremental": true,
+    "sourceRoot": "./src",
+    "outDir": "./esm",
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true
   },
-  "include": ["src/**/*"],
+  "include": ["src"],
   "exclude": ["node_modules", "esm"]
 }
