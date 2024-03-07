@@ -13,13 +13,17 @@
     "build": "tsc -b tsconfig.json",
     "clean:build": "rm -rf ./esm/",
     "test": "jest",
-    "commit": "cz"
+    "commit": "cz",
+    "package:generate": "node ./esm/scripts/generatePackage.js"
   },
   "dependencies": {
     "@types/node": "^20.11.24",
+    "chalk": "^4.1.2",
+    "inquirer": "^8.0.0",
     "typescript": "^5.3.3"
   },
   "devDependencies": {
+    "@types/inquirer": "^9.0.7",
     "@typescript-eslint/eslint-plugin": "^7.1.0",
     "@typescript-eslint/parser": "^7.1.0",
     "commitizen": "^4.3.0",
