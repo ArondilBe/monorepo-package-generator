@@ -987,6 +987,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/inquirer@npm:^9.0.7":
+  version: 9.0.7
+  resolution: "@types/inquirer@npm:9.0.7"
+  dependencies:
+    "@types/through": "npm:*"
+    rxjs: "npm:^7.2.0"
+  checksum: 10/84cefdd10d7ca747ae2338ea35518020abbc28f7670ade446e367c4cd333153618b374d30830253f31a9567dd26e7f3093fb3cd20210af5ba27a1a91b89bb97e
+  languageName: node
+  linkType: hard
+
 "@types/istanbul-lib-coverage@npm:*, @types/istanbul-lib-coverage@npm:^2.0.0, @types/istanbul-lib-coverage@npm:^2.0.1":
   version: 2.0.6
   resolution: "@types/istanbul-lib-coverage@npm:2.0.6"
@@ -1046,6 +1056,15 @@ __metadata:
   version: 2.0.3
   resolution: "@types/stack-utils@npm:2.0.3"
   checksum: 10/72576cc1522090fe497337c2b99d9838e320659ac57fa5560fcbdcbafcf5d0216c6b3a0a8a4ee4fdb3b1f5e3420aa4f6223ab57b82fef3578bec3206425c6cf5
+  languageName: node
+  linkType: hard
+
+"@types/through@npm:*":
+  version: 0.0.33
+  resolution: "@types/through@npm:0.0.33"
+  dependencies:
+    "@types/node": "npm:*"
+  checksum: 10/fd0b73f873a64ed5366d1d757c42e5dbbb2201002667c8958eda7ca02fff09d73de91360572db465ee00240c32d50c6039ea736d8eca374300f9664f93e8da39
   languageName: node
   linkType: hard
 
@@ -3282,6 +3301,29 @@ __metadata:
   languageName: node
   linkType: hard
 
+"inquirer@npm:^8.0.0":
+  version: 8.2.6
+  resolution: "inquirer@npm:8.2.6"
+  dependencies:
+    ansi-escapes: "npm:^4.2.1"
+    chalk: "npm:^4.1.1"
+    cli-cursor: "npm:^3.1.0"
+    cli-width: "npm:^3.0.0"
+    external-editor: "npm:^3.0.3"
+    figures: "npm:^3.0.0"
+    lodash: "npm:^4.17.21"
+    mute-stream: "npm:0.0.8"
+    ora: "npm:^5.4.1"
+    run-async: "npm:^2.4.0"
+    rxjs: "npm:^7.5.5"
+    string-width: "npm:^4.1.0"
+    strip-ansi: "npm:^6.0.0"
+    through: "npm:^2.3.6"
+    wrap-ansi: "npm:^6.0.1"
+  checksum: 10/f642b9e5a94faaba54f277bdda2af0e0a6b592bd7f88c60e1614b5795b19336c7025e0c2923915d5f494f600a02fe8517413779a794415bb79a9563b061d68ab
+  languageName: node
+  linkType: hard
+
 "internal-slot@npm:^1.0.7":
   version: 1.0.7
   resolution: "internal-slot@npm:1.0.7"
@@ -4807,15 +4849,18 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "package-generator@workspace:."
   dependencies:
+    "@types/inquirer": "npm:^9.0.7"
     "@types/node": "npm:^20.11.24"
     "@typescript-eslint/eslint-plugin": "npm:^7.1.0"
     "@typescript-eslint/parser": "npm:^7.1.0"
+    chalk: "npm:^4.1.0"
     commitizen: "npm:^4.3.0"
     cz-conventional-changelog: "npm:^3.3.0"
     eslint: "npm:^8.57.0"
     eslint-config-prettier: "npm:^9.1.0"
     eslint-import-resolver-typescript: "npm:^3.6.1"
     eslint-plugin-import: "npm:^2.29.1"
+    inquirer: "npm:^8.0.0"
     jest: "npm:^29.7.0"
     prettier: "npm:^3.2.5"
     ts-jest: "npm:^29.1.2"
@@ -5177,7 +5222,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rxjs@npm:^7.5.5":
+"rxjs@npm:^7.2.0, rxjs@npm:^7.5.5":
   version: 7.8.1
   resolution: "rxjs@npm:7.8.1"
   dependencies:
@@ -5989,6 +6034,17 @@ __metadata:
     string-width: "npm:^4.1.0"
     strip-ansi: "npm:^6.0.0"
   checksum: 10/cebdaeca3a6880da410f75209e68cd05428580de5ad24535f22696d7d9cab134d1f8498599f344c3cf0fb37c1715807a183778d8c648d6cc0cb5ff2bb4236540
+  languageName: node
+  linkType: hard
+
+"wrap-ansi@npm:^6.0.1":
+  version: 6.2.0
+  resolution: "wrap-ansi@npm:6.2.0"
+  dependencies:
+    ansi-styles: "npm:^4.0.0"
+    string-width: "npm:^4.1.0"
+    strip-ansi: "npm:^6.0.0"
+  checksum: 10/0d64f2d438e0b555e693b95aee7b2689a12c3be5ac458192a1ce28f542a6e9e59ddfecc37520910c2c88eb1f82a5411260566dba5064e8f9895e76e169e76187
   languageName: node
   linkType: hard
 
