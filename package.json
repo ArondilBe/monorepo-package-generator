@@ -8,7 +8,7 @@
     "url": "https://github.com/arondilbe/package-generator"
   },
   "packageManager": "yarn@4.1.0",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "build": "tsc -b tsconfig.json",
     "clean:build": "rm -rf ./esm/",
