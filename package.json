@@ -14,7 +14,7 @@
     "clean:build": "rm -rf ./esm/",
     "test": "jest",
     "commit": "cz",
-    "package:generate": "node ./esm/scripts/generatePackage.js"
+    "package:generate": "node ./esm/scripts/generatePackage.js --config ./packageGenerationExample.config.json"
   },
   "dependencies": {
     "chalk": "^4.1.2",

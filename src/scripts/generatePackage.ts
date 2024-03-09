@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 
-import { commandLine, configFile, generatePackage } from '../helpers';
+import { commandLine, configFile, folder, packageCreation } from '../helpers';
 
 (async () => {
   try {
@@ -9,11 +9,45 @@ import { commandLine, configFile, generatePackage } from '../helpers';
       await configFile.getPackageCreationConfiguration(
         commandOptions.config as string,
       );
-    const packageLocation = await generatePackage.generatePackageFolder(
+    const packageName = await commandLine.askPackageInformation();
+
+    const packageFolderCreationLocation = folder.getFolderCreationLocation(
       packageCreationConfiguration.destinationFolderRelativePath,
+      packageName,
     );
+
+    if (folder.doesFolderExists(packageFolderCreationLocation)) {
+      throw Error(
+        chalk.red(
+          `Folder ${packageName} already exists at ${packageFolderCreationLocation}`,
+        ),
+      );
+    }
+    const packageFolderLocation = packageCreation.createPackageFolder(
+      packageFolderCreationLocation,
+    ) as string;
+    const sampleFilesFolderLocation = folder.getFolderCreationLocation(
+      packageCreationConfiguration.sampleFilesFolderRelativePath,
+    );
+
+    if (!folder.doesFolderExists(sampleFilesFolderLocation)) {
+      throw Error(
+        chalk.red(
+          `No sample files folder found at ${sampleFilesFolderLocation}`,
+        ),
+      );
+    }
+    packageCreation.addAllSampleFiles(
+      packageFolderLocation,
+      sampleFilesFolderLocation,
+    );
+
     // eslint-disable-next-line no-console
-    console.log(chalk.green(`New package created at ${packageLocation}`));
+    console.log(
+      chalk.green(
+        `New package created at ${packageFolderLocation} with all sample files copied into it`,
+      ),
+    );
   } catch (error) {
     throw Error(chalk.red(`Error while generating the package: ${error}`));
   }

@@ -1,4 +1,4 @@
-import { mkdirSync } from 'fs';
+import { cpSync, mkdirSync } from 'fs';
 
 /**
  * Create the package folder
@@ -11,3 +11,21 @@ export const createPackageFolder = (
   mkdirSync(packageFolderLocation, {
     recursive: true,
   });
+
+/**
+ * Copy all sample files into the new package folder
+ * @param {string} packageFolderLocation The location of the new package folder
+ * @param {string} sampleFilesFolderLocation The location of the sample files folder
+ */
+export const addAllSampleFiles = (
+  packageFolderLocation: string,
+  sampleFilesFolderLocation: string,
+): void => {
+  try {
+    cpSync(sampleFilesFolderLocation, packageFolderLocation, {
+      recursive: true,
+    });
+  } catch (error) {
+    throw Error(`Error while copying sample files: ${error}`);
+  }
+};
