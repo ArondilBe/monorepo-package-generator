@@ -1,5 +1,6 @@
 import { cpSync, mkdirSync } from 'fs';
 
+import chalk from 'chalk';
 /**
  * Create the package folder
  * @param {string} packageFolderLocation The absolute path of the location where the package will be created
@@ -26,6 +27,6 @@ export const addAllSampleFiles = (
       recursive: true,
     });
   } catch (error) {
-    throw Error(`Error while copying sample files: ${error}`);
+    throw Error(chalk.red(`Error while copying sample files: ${error}`));
   }
 };
