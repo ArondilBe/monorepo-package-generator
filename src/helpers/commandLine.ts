@@ -57,7 +57,11 @@ export const getCommandOptionsWithDefaultValues = (
   return commandOptions;
 };
 
-export const getCommandOptions = () => {
+/**
+ * Return the command options based on the command line args
+ * @returns {commandLineTypes.CommandOptions} The command options
+ */
+export const getCommandOptions = (): commandLineTypes.CommandOptions => {
   const commandArguments = process.argv.slice(2);
   return getCommandOptionsWithDefaultValues(
     getCommandOptionsFromArgs(commandArguments),
