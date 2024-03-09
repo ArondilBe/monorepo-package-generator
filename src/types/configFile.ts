@@ -1,3 +1,4 @@
 export type PackageCreationConfiguration = {
-  destinationFolderRelativePart: string;
+  destinationFolderRelativePath: string;
+  sampleFilesFolderRelativePath: string;
 };

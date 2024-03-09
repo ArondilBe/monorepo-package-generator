@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 
-import { commandLine, configFile, packageCreation } from '../helpers';
+import { commandLine, configFile, generatePackage } from '../helpers';
 
 (async () => {
   try {
@@ -9,12 +9,9 @@ import { commandLine, configFile, packageCreation } from '../helpers';
       await configFile.getPackageCreationConfiguration(
         commandOptions.config as string,
       );
-    const packageName = await commandLine.askPackageInformation();
-    const packageLocation = packageCreation.createPackageFolder(
-      packageName,
-      packageCreationConfiguration.destinationFolderRelativePart,
+    const packageLocation = await generatePackage.generatePackageFolder(
+      packageCreationConfiguration.destinationFolderRelativePath,
     );
-
     // eslint-disable-next-line no-console
     console.log(chalk.green(`New package created at ${packageLocation}`));
   } catch (error) {
