@@ -11,7 +11,7 @@ export const getFolderCreationLocation = (
   destinationFolderRelativeLocation: string,
   folderName?: string,
 ): string =>
-  `${resolve(destinationFolderRelativeLocation)}${folderName ? `/${folderName}` : ''}`;
+  `${resolve(destinationFolderRelativeLocation)}${folderName ? `\\${folderName}` : ''}`;
 
 /**
  * Check if the package folder exists or not

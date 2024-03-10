@@ -23,9 +23,7 @@ import { commandLine, configFile, folder, packageCreation } from '../helpers';
         ),
       );
     }
-    const packageFolderLocation = packageCreation.createPackageFolder(
-      packageFolderCreationLocation,
-    ) as string;
+    packageCreation.createPackageFolder(packageFolderCreationLocation);
     const sampleFilesFolderLocation = folder.getFolderCreationLocation(
       packageCreationConfiguration.sampleFilesFolderRelativePath,
     );
@@ -38,14 +36,14 @@ import { commandLine, configFile, folder, packageCreation } from '../helpers';
       );
     }
     packageCreation.addAllSampleFiles(
-      packageFolderLocation,
+      packageFolderCreationLocation,
       sampleFilesFolderLocation,
     );
 
     // eslint-disable-next-line no-console
     console.log(
       chalk.green(
-        `New package created at ${packageFolderLocation} with all sample files copied into it`,
+        `New package created at ${packageFolderCreationLocation} with all sample files copied into it`,
       ),
     );
   } catch (error) {
