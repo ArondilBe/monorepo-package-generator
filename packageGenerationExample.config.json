@@ -1,4 +1,8 @@
 {
   "destinationFolderRelativePath": "./packages",
-  "sampleFilesFolderRelativePath": "./sampleFilesExamples"
+  "sampleFilesFolderRelativePath": "./sampleFilesExamples",
+  "packagesTypes": {
+    "helper": "helperPackage",
+    "content": "contentPackage"
+  }
 }
