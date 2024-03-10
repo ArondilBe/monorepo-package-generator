@@ -3,7 +3,7 @@ import * as folder from './folder';
 describe('getFolderCreationLocation', () => {
   it('Get a folder absolute path', () => {
     expect(folder.getFolderCreationLocation('./', 'src')).toEqual(
-      `${process.cwd()}/src`,
+      `${process.cwd()}\\src`,
     );
   });
 });

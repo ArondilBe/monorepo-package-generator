@@ -1,49 +1,57 @@
 import chalk from 'chalk';
 
-import { commandLine, configFile, folder, packageCreation } from '../helpers';
+import { commandLine, configFile, packageCreation } from '../helpers';
 
 (async () => {
   try {
     const commandOptions = commandLine.getCommandOptions();
+
     const packageCreationConfiguration =
       await configFile.getPackageCreationConfiguration(
         commandOptions.config as string,
       );
-    const packageName = await commandLine.askPackageInformation();
 
-    const packageFolderCreationLocation = folder.getFolderCreationLocation(
-      packageCreationConfiguration.destinationFolderRelativePath,
-      packageName,
-    );
+    const sampleFilesFolderLocation =
+      packageCreation.getSampleFilesFolderLocation(
+        packageCreationConfiguration.sampleFilesFolderRelativePath,
+      );
 
-    if (folder.doesFolderExists(packageFolderCreationLocation)) {
-      throw Error(
-        chalk.red(
-          `Folder ${packageName} already exists at ${packageFolderCreationLocation}`,
-        ),
+    const arePackageTypesDefined =
+      !!packageCreationConfiguration.packagesTypes &&
+      !!Object.keys(packageCreationConfiguration.packagesTypes).length;
+
+    let packagesTypesKeys: string[] = [];
+    if (arePackageTypesDefined) {
+      packagesTypesKeys = Object.keys(
+        packageCreationConfiguration.packagesTypes!,
+      );
+
+      packageCreation.checkPackageTypesFoldersExistence(
+        packagesTypesKeys,
+        sampleFilesFolderLocation,
+        packageCreationConfiguration.packagesTypes!,
       );
     }
-    packageCreation.createPackageFolder(packageFolderCreationLocation);
-    const sampleFilesFolderLocation = folder.getFolderCreationLocation(
-      packageCreationConfiguration.sampleFilesFolderRelativePath,
-    );
-
-    if (!folder.doesFolderExists(sampleFilesFolderLocation)) {
-      throw Error(
-        chalk.red(
-          `No sample files folder found at ${sampleFilesFolderLocation}`,
-        ),
+    const createdPackageInformation =
+      await packageCreation.getCreatedPackageInformation(
+        packageCreationConfiguration.destinationFolderRelativePath,
+        sampleFilesFolderLocation,
+        arePackageTypesDefined,
+        packagesTypesKeys,
+        packageCreationConfiguration.packagesTypes,
       );
-    }
-    packageCreation.addAllSampleFiles(
-      packageFolderCreationLocation,
-      sampleFilesFolderLocation,
+    packageCreation.createPackageFolder(
+      createdPackageInformation.creationFolderLocation,
+    );
+    packageCreation.addSampleFiles(
+      createdPackageInformation.creationFolderLocation,
+      createdPackageInformation.sampleFilesFolderLocation,
     );
 
     // eslint-disable-next-line no-console
     console.log(
       chalk.green(
-        `New package created at ${packageFolderCreationLocation} with all sample files copied into it`,
+        `New package ${createdPackageInformation.type ? `of type ${createdPackageInformation.type} created` : 'created'} at ${createdPackageInformation.creationFolderLocation}`,
       ),
     );
   } catch (error) {

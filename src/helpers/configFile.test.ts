@@ -5,6 +5,10 @@ import * as configFile from './configFile';
 const config: configFileTypes.PackageCreationConfiguration = {
   destinationFolderRelativePath: './packages',
   sampleFilesFolderRelativePath: './sampleFilesExamples',
+  packagesTypes: {
+    helper: 'helperPackage',
+    content: 'contentPackage',
+  },
 };
 
 describe('getPackageCreationConfiguration', () => {

@@ -73,7 +73,7 @@ export const getCommandOptions = (): commandLineTypes.CommandOptions => {
  * @returns {string} the package name
  */
 export const askPackageInformation = async (): Promise<string> => {
-  const packageInformation = await inquirer.prompt({
+  const askedPackageName = await inquirer.prompt({
     name: 'package_name',
     type: 'input',
     message: 'What is the name of the package ?',
@@ -81,6 +81,26 @@ export const askPackageInformation = async (): Promise<string> => {
       return 'PackageName';
     },
   });
-  const packageName = packageInformation.package_name;
-  return packageName;
+  return askedPackageName.package_name;
+};
+
+/**
+ * Ask information to the user to generate the package
+ * @param {string[]} packageTypesKeys The keys of the different packages types
+ * @returns {string} the package type to create
+ */
+export const askPackageType = async (
+  packageTypesKeys: string[],
+): Promise<string> => {
+  const askedPackageType = await inquirer.prompt({
+    name: 'package_type',
+    type: 'list',
+    choices: packageTypesKeys,
+    message: 'Which type of package should be created ?',
+    default() {
+      return 'packageType';
+    },
+  });
+
+  return askedPackageType.package_type;
 };
