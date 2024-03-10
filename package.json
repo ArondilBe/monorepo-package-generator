@@ -7,8 +7,10 @@
     "type": "git",
     "url": "https://github.com/arondilbe/package-generator"
   },
-  "packageManager": "yarn@4.1.0",
+  "main": "./esm/index.js",
+  "exports": "./esm/index.js",
   "type": "commonjs",
+  "packageManager": "yarn@4.1.0",
   "scripts": {
     "build": "tsc -b tsconfig.json",
     "clean:build": "rm -rf ./esm/",
