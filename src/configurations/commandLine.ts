@@ -1,7 +1,6 @@
-import { commandLine as commandLineTypes } from '../types';
+import { CommandOptions } from '../types';
 export const ARGUMENT_INDICATOR = '--';
 
-export const DEFAULT_COMMAND_OPTIONS: Partial<commandLineTypes.CommandOptions> =
-  {
-    config: './packageGeneration.config.json',
-  };
+export const DEFAULT_COMMAND_OPTIONS: Partial<CommandOptions> = {
+  config: './packageGeneration.config.json',
+};

@@ -2,7 +2,11 @@ import { cpSync, mkdirSync } from 'fs';
 
 import chalk from 'chalk';
 
-import { packageCreation as packageCreationTypes } from '../types';
+import {
+  CreatedPackageFolderInformation,
+  CreatedPackageInformation,
+  CreatedPackageSampleFilesInformation,
+} from '../types';
 
 import * as commandLine from './commandLine';
 import * as configFile from './configFile';
@@ -101,12 +105,12 @@ export const checkPackageTypesFoldersExistence = (
 /**
  * Ask the package the create name and return it's absolute path and it's name
  * @param {string} destinationFolderRelativePath The relative path of the package destination folder
- * @returns {Promise<packageCreationTypes.CreatedPackageFolderInformation>} The package to create absolute path and name
+ * @returns {Promise<CreatedPackageFolderInformation>} The package to create absolute path and name
  * @throws {Error} If a folder with the name of the package to create already exists in the destination folder
  */
 export const getCreatedPackageFolderInformation = async (
   destinationFolderRelativePath: string,
-): Promise<packageCreationTypes.CreatedPackageFolderInformation> => {
+): Promise<CreatedPackageFolderInformation> => {
   const packageName = await commandLine.askPackageInformation();
   const packageFolderCreationLocation = folder.getFolderCreationLocation(
     destinationFolderRelativePath,
@@ -132,14 +136,14 @@ export const getCreatedPackageFolderInformation = async (
  * @param {boolean} arePackageTypesDefined If there are defined packages types or not
  * @param {string[]} packageTypesKeys An array containing the packages types keys (optional)
  * @param {{[key: string]: string} } packagesTypes An object containing the packages types
- * @returns {Promise<packageCreationTypes.CreatedPackageSampleFilesInformation>} The package to create type (undefined if no package type) and the sample files folder absolute path
+ * @returns {Promise<CreatedPackageSampleFilesInformation>} The package to create type (undefined if no package type) and the sample files folder absolute path
  */
 export const getCreatedPackageSampleFilesInformation = async (
   sampleFilesFolderLocation: string,
   arePackageTypesDefined: boolean,
   packageTypesKeys?: string[],
   packagesTypes?: { [key: string]: string },
-): Promise<packageCreationTypes.CreatedPackageSampleFilesInformation> => {
+): Promise<CreatedPackageSampleFilesInformation> => {
   const sampleFilesToAddLocation = sampleFilesFolderLocation;
   if (arePackageTypesDefined) {
     const packageType = await commandLine.askPackageType(packageTypesKeys!);
@@ -171,7 +175,7 @@ export const getCreatedPackageInformation = async (
   arePackageTypesDefined: boolean,
   packageTypesKeys?: string[],
   packagesTypes?: { [key: string]: string },
-): Promise<packageCreationTypes.CreatedPackageInformation> => {
+): Promise<CreatedPackageInformation> => {
   const createdPackageFolderInformation =
     await getCreatedPackageFolderInformation(destinationFolderRelativePath);
   const createdPackageSampleFilesInformation =
