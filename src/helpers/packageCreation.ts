@@ -5,6 +5,7 @@ import chalk from 'chalk';
 import { packageCreation as packageCreationTypes } from '../types';
 
 import * as commandLine from './commandLine';
+import * as configFile from './configFile';
 import * as folder from './folder';
 
 /**
@@ -103,7 +104,7 @@ export const checkPackageTypesFoldersExistence = (
  * @returns {Promise<packageCreationTypes.CreatedPackageFolderInformation>} The package to create absolute path and name
  * @throws {Error} If a folder with the name of the package to create already exists in the destination folder
  */
-const getCreatedPackageFolderInformation = async (
+export const getCreatedPackageFolderInformation = async (
   destinationFolderRelativePath: string,
 ): Promise<packageCreationTypes.CreatedPackageFolderInformation> => {
   const packageName = await commandLine.askPackageInformation();
@@ -133,7 +134,7 @@ const getCreatedPackageFolderInformation = async (
  * @param {{[key: string]: string} } packagesTypes An object containing the packages types
  * @returns {Promise<packageCreationTypes.CreatedPackageSampleFilesInformation>} The package to create type (undefined if no package type) and the sample files folder absolute path
  */
-const getCreatedPackageSampleFilesInformation = async (
+export const getCreatedPackageSampleFilesInformation = async (
   sampleFilesFolderLocation: string,
   arePackageTypesDefined: boolean,
   packageTypesKeys?: string[],
@@ -189,4 +190,59 @@ export const getCreatedPackageInformation = async (
     sampleFilesFolderLocation:
       createdPackageSampleFilesInformation.sampleFilesFolderLocation,
   };
+};
+
+export const generatePackage = async (
+  configurationFileRelativeLocation?: string,
+): Promise<void> => {
+  try {
+    const configFileRelativePath = configurationFileRelativeLocation
+      ? configurationFileRelativeLocation
+      : commandLine.getCommandOptions().config;
+
+    const packageCreationConfiguration =
+      await configFile.getPackageCreationConfiguration(configFileRelativePath!);
+
+    const sampleFilesFolderLocation = getSampleFilesFolderLocation(
+      packageCreationConfiguration.sampleFilesFolderRelativePath,
+    );
+
+    const arePackageTypesDefined =
+      !!packageCreationConfiguration.packagesTypes &&
+      !!Object.keys(packageCreationConfiguration.packagesTypes).length;
+
+    let packagesTypesKeys: string[] = [];
+    if (arePackageTypesDefined) {
+      packagesTypesKeys = Object.keys(
+        packageCreationConfiguration.packagesTypes!,
+      );
+
+      checkPackageTypesFoldersExistence(
+        packagesTypesKeys,
+        sampleFilesFolderLocation,
+        packageCreationConfiguration.packagesTypes!,
+      );
+    }
+    const createdPackageInformation = await getCreatedPackageInformation(
+      packageCreationConfiguration.destinationFolderRelativePath,
+      sampleFilesFolderLocation,
+      arePackageTypesDefined,
+      packagesTypesKeys,
+      packageCreationConfiguration.packagesTypes,
+    );
+    createPackageFolder(createdPackageInformation.creationFolderLocation);
+    addSampleFiles(
+      createdPackageInformation.creationFolderLocation,
+      createdPackageInformation.sampleFilesFolderLocation,
+    );
+
+    // eslint-disable-next-line no-console
+    console.log(
+      chalk.green(
+        `New package ${createdPackageInformation.type ? `of type ${createdPackageInformation.type} created` : 'created'} at ${createdPackageInformation.creationFolderLocation}`,
+      ),
+    );
+  } catch (error) {
+    throw Error(chalk.red(`Error while generating the package: ${error}`));
+  }
 };
