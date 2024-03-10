@@ -3,17 +3,17 @@ import { resolve } from 'path';
 
 import chalk from 'chalk';
 
-import { configFile as configFileTypes } from '../types';
+import { PackageCreationConfiguration } from '../types';
 
 /**
  * Return the package creation configuration
  * @param {string} configurationFileRelativeLocation The relative path of the package creation configuration file
- * @returns {Promise<configFileTypes.PackageCreationConfiguration>} The package creation configuration
+ * @returns {Promise<.PackageCreationConfiguration>} The package creation configuration
  * @throws {Error} If the file doesn't exist
  */
 export const getPackageCreationConfiguration = async (
   configurationFileRelativeLocation: string,
-): Promise<configFileTypes.PackageCreationConfiguration> => {
+): Promise<PackageCreationConfiguration> => {
   const configurationFileLocation = resolve(configurationFileRelativeLocation);
 
   if (!existsSync(configurationFileLocation)) {

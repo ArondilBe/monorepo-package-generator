@@ -1,13 +1,13 @@
 import { commandLine as commandLineConfigurations } from '../configurations';
-import { commandLine as commandLineTypes } from '../types';
+import { CommandOptions } from '../types';
 
 import * as commandLineHelpers from './commandLine';
 
-const fullyPromptedCommandOptions: commandLineTypes.CommandOptions = {
+const fullyPromptedCommandOptions: CommandOptions = {
   config: './src/packageGenerationExample.config.json',
 };
 
-const undefinedPromptedCommandOptions: commandLineTypes.CommandOptions = {
+const undefinedPromptedCommandOptions: CommandOptions = {
   config: undefined,
 };
 

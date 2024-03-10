@@ -1,8 +1,8 @@
-import { configFile as configFileTypes } from '../types';
+import { PackageCreationConfiguration } from '../types';
 
 import * as configFile from './configFile';
 
-const config: configFileTypes.PackageCreationConfiguration = {
+const config: PackageCreationConfiguration = {
   destinationFolderRelativePath: './packages',
   sampleFilesFolderRelativePath: './sampleFilesExamples',
   packagesTypes: {
