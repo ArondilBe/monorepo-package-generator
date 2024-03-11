@@ -1,6 +1,6 @@
 {
   "name": "package-generator",
-  "version": "0.0.2",
+  "version": "0.0.5",
   "author": "Dominique Pino (ArondilBe)",
   "license": "MIT",
   "repository": {
@@ -8,8 +8,8 @@
     "url": "https://github.com/arondilbe/package-generator"
   },
   "main": "./esm/index.js",
+  "exports": "./esm/index.js",
   "module": "./esm/index.js",
-  "types": "./esm/index.d.ts",
   "type": "commonjs",
   "packageManager": "yarn@4.1.0",
   "scripts": {
