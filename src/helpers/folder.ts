@@ -1,5 +1,5 @@
 import { existsSync } from 'fs';
-import { resolve } from 'path';
+import { join, resolve } from 'path';
 
 /**
  * Return the absolute path where the folder will be created
@@ -11,7 +11,11 @@ export const getFolderCreationLocation = (
   destinationFolderRelativeLocation: string,
   folderName?: string,
 ): string =>
-  `${resolve(destinationFolderRelativeLocation)}${folderName ? `\\${folderName}` : ''}`;
+  resolve(
+    folderName
+      ? join(destinationFolderRelativeLocation, folderName)
+      : destinationFolderRelativeLocation,
+  );
 
 /**
  * Check if the package folder exists or not
