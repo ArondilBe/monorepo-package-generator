@@ -1,4 +1,5 @@
 import { cpSync, mkdirSync } from 'fs';
+import { join } from 'path';
 
 import chalk from 'chalk';
 
@@ -79,9 +80,7 @@ export const checkPackageTypesFoldersExistence = (
   packagesTypesKeys.forEach((packagesTypesKeys) => {
     if (
       !folder.doesFolderExists(
-        sampleFilesFolderLocation.concat(
-          ...`\\${packagesTypes?.[packagesTypesKeys]}`,
-        ),
+        join(sampleFilesFolderLocation, packagesTypes?.[packagesTypesKeys]),
       )
     ) {
       nonExistingPackageTypes.push(packagesTypesKeys);
@@ -149,9 +148,9 @@ export const getCreatedPackageSampleFilesInformation = async (
     const packageType = await commandLine.askPackageType(packageTypesKeys!);
     return {
       type: packageType,
-      sampleFilesFolderLocation: sampleFilesToAddLocation.concat(
-        ...`\\${packagesTypes?.[packageType]}`,
-      ),
+      sampleFilesFolderLocation: packagesTypes?.[packageType]
+        ? join(sampleFilesToAddLocation, packagesTypes?.[packageType] as string)
+        : sampleFilesToAddLocation,
     };
   }
   return {
@@ -167,7 +166,7 @@ export const getCreatedPackageSampleFilesInformation = async (
  * @param {boolean} arePackageTypesDefined If there are defined packages types or not
  * @param {string[]} packageTypesKeys An array containing the packages types keys (optional)
  * @param {{[key: string]: string} } packagesTypes An object containing the packages types
- * @returns {} The package to create innformation
+ * @returns {Promise<CreatedPackageInformation>} The package to create innformation
  */
 export const getCreatedPackageInformation = async (
   destinationFolderRelativePath: string,
