@@ -7,6 +7,7 @@ import {
   CreatedPackageFolderInformation,
   CreatedPackageInformation,
   CreatedPackageSampleFilesInformation,
+  PackageCreationConfiguration,
 } from '../types';
 
 import * as commandLine from './commandLine';
@@ -195,16 +196,19 @@ export const getCreatedPackageInformation = async (
   };
 };
 
+/**
+ * Main function to generate a package
+ * @param {PackageCreationConfiguration} packageGenerationConfiguration The configuration object (optional)
+ */
 export const generatePackage = async (
-  configurationFileRelativeLocation?: string,
+  packageGenerationConfiguration?: PackageCreationConfiguration,
 ): Promise<void> => {
   try {
-    const configFileRelativePath = configurationFileRelativeLocation
-      ? configurationFileRelativeLocation
-      : commandLine.getCommandOptions().config;
-
-    const packageCreationConfiguration =
-      await configFile.getPackageCreationConfiguration(configFileRelativePath!);
+    const packageCreationConfiguration = packageGenerationConfiguration
+      ? packageGenerationConfiguration
+      : await configFile.getPackageCreationConfiguration(
+          commandLine.getCommandOptions().config!,
+        );
 
     const sampleFilesFolderLocation = getSampleFilesFolderLocation(
       packageCreationConfiguration.sampleFilesFolderRelativePath,
