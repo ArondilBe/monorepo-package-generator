@@ -1,6 +1,6 @@
 {
   "name": "package-generator",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "The package 'package-generator' goal is to provide an easy to use tool to generate packages for monorepo. The generated packages are based on sample files and folders.",
   "keywords": [
     "package",
