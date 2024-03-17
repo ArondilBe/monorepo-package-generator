@@ -22,6 +22,31 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@arondilbe/package-generator@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "@arondilbe/package-generator@workspace:."
+  dependencies:
+    "@types/inquirer": "npm:^9.0.7"
+    "@types/jest": "npm:^29.5.12"
+    "@types/node": "npm:^20.11.27"
+    "@typescript-eslint/eslint-plugin": "npm:^7.2.0"
+    "@typescript-eslint/parser": "npm:^7.2.0"
+    chalk: "npm:^4.1.2"
+    commitizen: "npm:^4.3.0"
+    cz-conventional-changelog: "npm:^3.3.0"
+    eslint: "npm:^8.57.0"
+    eslint-config-prettier: "npm:^9.1.0"
+    eslint-import-resolver-typescript: "npm:^3.6.1"
+    eslint-plugin-import: "npm:^2.29.1"
+    inquirer: "npm:^8.2.6"
+    jest: "npm:^29.7.0"
+    prettier: "npm:^3.2.5"
+    ts-jest: "npm:^29.1.2"
+    typescript: "npm:^5.4.2"
+    typescript-eslint: "npm:^7.2.0"
+  languageName: unknown
+  linkType: soft
+
 "@babel/code-frame@npm:^7.0.0, @babel/code-frame@npm:^7.12.13, @babel/code-frame@npm:^7.23.5":
   version: 7.23.5
   resolution: "@babel/code-frame@npm:7.23.5"
@@ -4863,31 +4888,6 @@ __metadata:
   checksum: 10/f8a8e9a7693659383f06aec604ad5ead237c7a261c18048a6e1b5b85a5f8a067e469aa24f5bc009b991ea3b058a87f5065ef4176793a200d4917349881216cae
   languageName: node
   linkType: hard
-
-"package-generator@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "package-generator@workspace:."
-  dependencies:
-    "@types/inquirer": "npm:^9.0.7"
-    "@types/jest": "npm:^29.5.12"
-    "@types/node": "npm:^20.11.27"
-    "@typescript-eslint/eslint-plugin": "npm:^7.2.0"
-    "@typescript-eslint/parser": "npm:^7.2.0"
-    chalk: "npm:^4.1.2"
-    commitizen: "npm:^4.3.0"
-    cz-conventional-changelog: "npm:^3.3.0"
-    eslint: "npm:^8.57.0"
-    eslint-config-prettier: "npm:^9.1.0"
-    eslint-import-resolver-typescript: "npm:^3.6.1"
-    eslint-plugin-import: "npm:^2.29.1"
-    inquirer: "npm:^8.2.6"
-    jest: "npm:^29.7.0"
-    prettier: "npm:^3.2.5"
-    ts-jest: "npm:^29.1.2"
-    typescript: "npm:^5.4.2"
-    typescript-eslint: "npm:^7.2.0"
-  languageName: unknown
-  linkType: soft
 
 "parent-module@npm:^1.0.0":
   version: 1.0.1
