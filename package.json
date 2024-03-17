@@ -1,5 +1,5 @@
 {
-  "name": "package-generator",
+  "name": "@arondilbe/package-generator",
   "version": "0.0.7",
   "description": "The package 'package-generator' goal is to provide an easy to use tool to generate packages for monorepo. The generated packages are based on sample files and folders.",
   "keywords": [
@@ -10,10 +10,10 @@
   "homepage": "https://github.com/arondilbe/package-generator#readme",
   "bugs": {
     "url": "https://github.com/arondilbe/package-generator/issues",
-    "email": "pinodominique@gmail.com"
+    "email": "arondilbe@gmail.com"
   },
   "license": "MIT",
-  "author": "Dominique Pino (pinodominique@gmail.com)",
+  "author": "ArondilBe (arondilbe@gmail.com)",
   "repository": {
     "type": "git",
     "url": "https://github.com/arondilbe/package-generator"
