@@ -3,6 +3,7 @@ import { join } from 'path';
 
 import chalk from 'chalk';
 
+import { util as utilConfigurations } from '../configurations';
 import {
   CreatedPackageFolderInformation,
   CreatedPackageInformation,
@@ -13,6 +14,7 @@ import {
 import * as commandLine from './commandLine';
 import * as configFile from './configFile';
 import * as folder from './folder';
+import * as util from './util';
 
 /**
  * Create the package folder
@@ -36,13 +38,9 @@ export const addSampleFiles = (
   packageFolderLocation: string,
   sampleFilesFolderLocation: string,
 ): void => {
-  try {
-    cpSync(sampleFilesFolderLocation, packageFolderLocation, {
-      recursive: true,
-    });
-  } catch (error) {
-    throw Error(chalk.red(`Error while copying sample files: ${error}`));
-  }
+  cpSync(sampleFilesFolderLocation, packageFolderLocation, {
+    recursive: true,
+  });
 };
 
 /**
@@ -58,9 +56,9 @@ export const getSampleFilesFolderLocation = (
     sampleFilesFolderRelativePath,
   );
   if (!folder.doesFolderExists(sampleFilesFolderLocation)) {
-    throw Error(
-      chalk.red(`No sample files folder found at ${sampleFilesFolderLocation}`),
-    );
+    util.throwPackageGenerationError('Sample file folder', {
+      path: sampleFilesFolderLocation,
+    });
   }
   return sampleFilesFolderLocation;
 };
@@ -89,8 +87,7 @@ export const checkPackageTypesFoldersExistence = (
   });
 
   if (nonExistingPackageTypes.length) {
-    let nonExistingPackageTypesErrorMessage =
-      "The following package types doesn't exist:";
+    let nonExistingPackageTypesErrorMessage = '';
     nonExistingPackageTypes.forEach(
       (nonExistingPackageType) =>
         (nonExistingPackageTypesErrorMessage =
@@ -98,7 +95,9 @@ export const checkPackageTypesFoldersExistence = (
             `\n- ${nonExistingPackageType}`,
           )),
     );
-    throw Error(chalk.red(nonExistingPackageTypesErrorMessage));
+    util.throwPackageGenerationError('Package type', {
+      packageTypes: nonExistingPackageTypesErrorMessage,
+    });
   }
 };
 
@@ -117,11 +116,10 @@ export const getCreatedPackageFolderInformation = async (
     packageName,
   );
   if (folder.doesFolderExists(packageFolderCreationLocation)) {
-    throw Error(
-      chalk.red(
-        `Folder ${packageName} already exists at ${packageFolderCreationLocation}`,
-      ),
-    );
+    util.throwPackageGenerationError('Package already exists', {
+      package: packageName,
+      path: packageFolderCreationLocation,
+    });
   }
   return {
     name: packageName,
@@ -167,7 +165,7 @@ export const getCreatedPackageSampleFilesInformation = async (
  * @param {boolean} arePackageTypesDefined If there are defined packages types or not
  * @param {string[]} packageTypesKeys An array containing the packages types keys (optional)
  * @param {{[key: string]: string} } packagesTypes An object containing the packages types
- * @returns {Promise<CreatedPackageInformation>} The package to create innformation
+ * @returns {Promise<CreatedPackageInformation>} The package to create information
  */
 export const getCreatedPackageInformation = async (
   destinationFolderRelativePath: string,
@@ -203,53 +201,60 @@ export const getCreatedPackageInformation = async (
 export const generatePackage = async (
   packageGenerationConfiguration?: PackageCreationConfiguration,
 ): Promise<void> => {
-  try {
-    const packageCreationConfiguration = packageGenerationConfiguration
-      ? packageGenerationConfiguration
-      : await configFile.getPackageCreationConfiguration(
-          commandLine.getCommandOptions().config!,
-        );
+  const packageCreationConfiguration = packageGenerationConfiguration
+    ? packageGenerationConfiguration
+    : await configFile.getPackageCreationConfiguration(
+        commandLine.getCommandOptions().config!,
+      );
 
-    const sampleFilesFolderLocation = getSampleFilesFolderLocation(
-      packageCreationConfiguration.sampleFilesFolderRelativePath,
+  const sampleFilesFolderLocation = getSampleFilesFolderLocation(
+    packageCreationConfiguration.sampleFilesFolderRelativePath,
+  );
+
+  const arePackageTypesDefined =
+    !!packageCreationConfiguration.packagesTypes &&
+    !!Object.keys(packageCreationConfiguration.packagesTypes).length;
+
+  let packagesTypesKeys: string[] = [];
+  if (arePackageTypesDefined) {
+    packagesTypesKeys = Object.keys(
+      packageCreationConfiguration.packagesTypes!,
     );
 
-    const arePackageTypesDefined =
-      !!packageCreationConfiguration.packagesTypes &&
-      !!Object.keys(packageCreationConfiguration.packagesTypes).length;
-
-    let packagesTypesKeys: string[] = [];
-    if (arePackageTypesDefined) {
-      packagesTypesKeys = Object.keys(
-        packageCreationConfiguration.packagesTypes!,
-      );
-
-      checkPackageTypesFoldersExistence(
-        packagesTypesKeys,
-        sampleFilesFolderLocation,
-        packageCreationConfiguration.packagesTypes!,
-      );
-    }
-    const createdPackageInformation = await getCreatedPackageInformation(
-      packageCreationConfiguration.destinationFolderRelativePath,
-      sampleFilesFolderLocation,
-      arePackageTypesDefined,
+    checkPackageTypesFoldersExistence(
       packagesTypesKeys,
-      packageCreationConfiguration.packagesTypes,
+      sampleFilesFolderLocation,
+      packageCreationConfiguration.packagesTypes!,
     );
-    createPackageFolder(createdPackageInformation.creationFolderLocation);
-    addSampleFiles(
-      createdPackageInformation.creationFolderLocation,
-      createdPackageInformation.sampleFilesFolderLocation,
-    );
-
-    // eslint-disable-next-line no-console
-    console.log(
-      chalk.green(
-        `New package ${createdPackageInformation.type ? `of type ${createdPackageInformation.type} created` : 'created'} at ${createdPackageInformation.creationFolderLocation}`,
-      ),
-    );
-  } catch (error) {
-    throw Error(chalk.red(`Error while generating the package: ${error}`));
   }
+  const createdPackageInformation = await getCreatedPackageInformation(
+    packageCreationConfiguration.destinationFolderRelativePath,
+    sampleFilesFolderLocation,
+    arePackageTypesDefined,
+    packagesTypesKeys,
+    packageCreationConfiguration.packagesTypes,
+  );
+  createPackageFolder(createdPackageInformation.creationFolderLocation);
+  addSampleFiles(
+    createdPackageInformation.creationFolderLocation,
+    createdPackageInformation.sampleFilesFolderLocation,
+  );
+
+  const { SUCCESS_MESSAGES: successMessages } = utilConfigurations;
+  const successMessage =
+    successMessages[createdPackageInformation.type ? 0 : 1];
+  const parameters = {
+    path: createdPackageInformation.creationFolderLocation,
+  };
+  // eslint-disable-next-line no-console
+  console.log(
+    chalk.green(
+      util.getMessageWithParameterValues(
+        successMessage,
+        createdPackageInformation.type
+          ? { ...parameters, ...{ type: createdPackageInformation.type } }
+          : parameters,
+      ),
+    ),
+  );
 };

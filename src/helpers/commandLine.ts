@@ -1,8 +1,9 @@
-import chalk from 'chalk';
 import inquirer from 'inquirer';
 
 import { commandLine as commandLineConfigurations } from '../configurations';
 import { CommandOptions } from '../types';
+
+import * as util from './util';
 
 /**
  * Return an object containing all the command arguments values
@@ -11,22 +12,25 @@ import { CommandOptions } from '../types';
  * @throws {Error} If one argument is invalid or has no value
  */
 export const getCommandOptionsFromArgs = (args: string[]) => {
-  const { ARGUMENT_INDICATOR: argumentIndicator } = commandLineConfigurations;
+  const { ARGUMENT_SYMBOL: argumentSymbol } = commandLineConfigurations;
+
   const commandOptions: CommandOptions = {
     config: undefined,
   };
   const commandLineKeys = Object.keys(commandOptions);
   for (let argIndex = 0; argIndex < args.length; argIndex += 1) {
     const currentArg = args[argIndex];
-    if (currentArg.startsWith(argumentIndicator)) {
+    if (currentArg.startsWith(argumentSymbol)) {
       const key = currentArg.slice(2);
       if (!commandLineKeys.includes(key)) {
-        throw Error(
-          chalk.red(`Argument ${currentArg} isn't valid for this command`),
-        );
+        util.throwPackageGenerationError('Command argument', {
+          argument: currentArg.slice(2),
+        });
       }
       if (!args[argIndex + 1]) {
-        throw Error(chalk.red(`No value passed for argument ${currentArg}`));
+        util.throwPackageGenerationError('Command value', {
+          argument: currentArg,
+        });
       }
       commandOptions[key as keyof CommandOptions] = args[argIndex + 1];
     }
