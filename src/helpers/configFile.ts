@@ -1,9 +1,9 @@
 import { existsSync } from 'fs';
 import { resolve } from 'path';
 
-import chalk from 'chalk';
-
 import { PackageCreationConfiguration } from '../types';
+
+import * as util from './util';
 
 /**
  * Return the package creation configuration
@@ -17,7 +17,9 @@ export const getPackageCreationConfiguration = async (
   const configurationFileLocation = resolve(configurationFileRelativeLocation);
 
   if (!existsSync(configurationFileLocation)) {
-    throw Error(chalk.red(`File ${configurationFileLocation} doesn't exist`));
+    util.throwPackageGenerationError('Configuration file missing', {
+      path: configurationFileLocation,
+    });
   }
   const packageCreationConfiguration = await import(configurationFileLocation);
 
