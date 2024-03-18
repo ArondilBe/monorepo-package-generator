@@ -1,10 +1,10 @@
-# package-generator
+# @arondilbe/monorepo-package-generator
 
 ## Table of Contents
 
-- [package-generator](#package-generator)
+- [@arondilbe/monorepo-package-generator](#arondilbemonorepo-package-generator)
   - [Table of Contents](#table-of-contents)
-  - [About package-generator](#about-package-generator)
+  - [About tre package](#about-tre-package)
   - [How to generate package](#how-to-generate-package)
     - [Create the configuration file](#create-the-configuration-file)
     - [Create the sample files folder](#create-the-sample-files-folder)
@@ -18,9 +18,9 @@
       - [Files](#files)
       - [Code conventions](#code-conventions)
 
-## About package-generator
+## About tre package
 
-The package package-generator's goal is to standardize and ease the way of creating packages in monorepo. It allows the user to generate new packages based on sample models. All this, based on a configuration file.
+The package @arondilbe/monorepo-package-generator's goal is to standardize and ease the way of creating packages in monorepo. It allows the user to generate new packages based on sample models. All this, based on a configuration file.
 
 ## How to generate package
 
