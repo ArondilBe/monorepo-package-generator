@@ -2,8 +2,6 @@ import { PackageGenerationError } from '../types';
 export const STRING_PARAMETER_SYMBOL = ':';
 
 export const PACKAGE_GENERATION_ERROR: PackageGenerationError = {
-  'Parameter not found in message':
-    'The following parameters were not found in the message:',
   'Command argument': "Argument :argument isn't valid for this command",
   'Command value': 'No value passed for argument :argument',
   'Configuration file missing': "File :path doesn't exist",
