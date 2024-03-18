@@ -1,7 +1,7 @@
 import * as configurations from './configurations';
 import * as helpers from './helpers';
-const packageGenerator = { helpers, configurations };
-export default packageGenerator;
+const monorepoPackageGenerator = { helpers, configurations };
+export default monorepoPackageGenerator;
 export type {
   CommandOptions,
   PackageCreationConfiguration,

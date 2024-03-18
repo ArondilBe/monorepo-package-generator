@@ -22,11 +22,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@arondilbe/package-generator@workspace:.":
+"@arondilbe/monorepo-package-generator@workspace:.":
   version: 0.0.0-use.local
-  resolution: "@arondilbe/package-generator@workspace:."
+  resolution: "@arondilbe/monorepo-package-generator@workspace:."
   dependencies:
-    "@arondilbe/string-parameters-parser": "npm:^1.0.0"
+    "@arondilbe/string-parameters-parser": "npm:^1.0.1"
     "@types/inquirer": "npm:^9.0.7"
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^20.11.27"
@@ -48,12 +48,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@arondilbe/string-parameters-parser@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "@arondilbe/string-parameters-parser@npm:1.0.0"
+"@arondilbe/string-parameters-parser@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "@arondilbe/string-parameters-parser@npm:1.0.1"
   dependencies:
     chalk: "npm:^4.1.2"
-  checksum: 10/26f0aeaac73e8322257304d2ec33987fcee0b54ca4fc0b57556d43bd75d0d97ec17ea71e8dd5fbf96385d13bf4158b122d1a9cb1f5046f50cfb6e4fc54353c81
+  checksum: 10/bccdfd61f271053c34e35e0fb266dabeb847a59d0e300674573581b605fa73b7bf2a6e2585fc23fbc850ec4d3956760627d0971134ed3691232be1840f370a66
   languageName: node
   linkType: hard
 
