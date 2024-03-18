@@ -1,6 +1,7 @@
 import { cpSync, mkdirSync } from 'fs';
 import { join } from 'path';
 
+import stringParametersParser from '@arondilbe/string-parameters-parser';
 import chalk from 'chalk';
 
 import { util as utilConfigurations } from '../configurations';
@@ -249,7 +250,8 @@ export const generatePackage = async (
   // eslint-disable-next-line no-console
   console.log(
     chalk.green(
-      util.getMessageWithParameterValues(
+      stringParametersParser.getStringWithParameterValues(
+        utilConfigurations.STRING_PARAMETER_SYMBOL,
         successMessage,
         createdPackageInformation.type
           ? { ...parameters, ...{ type: createdPackageInformation.type } }

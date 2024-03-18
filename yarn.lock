@@ -26,6 +26,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@arondilbe/package-generator@workspace:."
   dependencies:
+    "@arondilbe/string-parameters-parser": "npm:^1.0.0"
     "@types/inquirer": "npm:^9.0.7"
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^20.11.27"
@@ -46,6 +47,15 @@ __metadata:
     typescript-eslint: "npm:^7.2.0"
   languageName: unknown
   linkType: soft
+
+"@arondilbe/string-parameters-parser@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@arondilbe/string-parameters-parser@npm:1.0.0"
+  dependencies:
+    chalk: "npm:^4.1.2"
+  checksum: 10/26f0aeaac73e8322257304d2ec33987fcee0b54ca4fc0b57556d43bd75d0d97ec17ea71e8dd5fbf96385d13bf4158b122d1a9cb1f5046f50cfb6e4fc54353c81
+  languageName: node
+  linkType: hard
 
 "@babel/code-frame@npm:^7.0.0, @babel/code-frame@npm:^7.12.13, @babel/code-frame@npm:^7.23.5":
   version: 7.23.5
