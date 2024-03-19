@@ -1,74 +1,22 @@
 import inquirer from 'inquirer';
+import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers';
 
 import { commandLine as commandLineConfigurations } from '../configurations';
-import { CommandOptions } from '../types';
-
-import * as util from './util';
-
-/**
- * Return an object containing all the command arguments values
- * @param {string[]} args The arguments passed by the command
- * @returns {CommandLineOptions} The command line arguments values
- * @throws {Error} If one argument is invalid or has no value
- */
-export const getCommandOptionsFromArgs = (args: string[]) => {
-  const { ARGUMENT_SYMBOL: argumentSymbol } = commandLineConfigurations;
-
-  const commandOptions: CommandOptions = {
-    config: undefined,
-  };
-  const commandLineKeys = Object.keys(commandOptions);
-  for (let argIndex = 0; argIndex < args.length; argIndex += 1) {
-    const currentArg = args[argIndex];
-    if (currentArg.startsWith(argumentSymbol)) {
-      const key = currentArg.slice(2);
-      if (!commandLineKeys.includes(key)) {
-        util.throwPackageGenerationError('Command argument', {
-          argument: currentArg.slice(2),
-        });
-      }
-      if (!args[argIndex + 1]) {
-        util.throwPackageGenerationError('Command value', {
-          argument: currentArg,
-        });
-      }
-      commandOptions[key as keyof CommandOptions] = args[argIndex + 1];
-    }
-  }
-
-  return commandOptions;
-};
-
-/**
- * Return the command options with the default value put for undefined options
- * @param {CommandOptions} promptedCommandOptions The command options from the command line
- * @returns {CommandOptions} The command options with the default value put for undefined options
- */
-export const getCommandOptionsWithDefaultValues = (
-  promptedCommandOptions: CommandOptions,
-): CommandOptions => {
-  const { DEFAULT_COMMAND_OPTIONS: defaultCommandOptions } =
-    commandLineConfigurations;
-  const commandOptions = structuredClone(promptedCommandOptions);
-  const commandOptionsKeys = Object.keys(defaultCommandOptions);
-  commandOptionsKeys.forEach((commandOptionKey) => {
-    const typedKey = commandOptionKey as keyof CommandOptions;
-    if (!promptedCommandOptions[typedKey]) {
-      commandOptions[typedKey] = defaultCommandOptions[typedKey];
-    }
-  });
-  return commandOptions;
-};
+import { CommandParameters } from '../types';
 
 /**
  * Return the command options based on the command line args
- * @returns {CommandOptions} The command options
+ * @returns {Promise<CommandParameters>} The command parameters
  */
-export const getCommandOptions = (): CommandOptions => {
-  const commandArguments = process.argv.slice(2);
-  return getCommandOptionsWithDefaultValues(
-    getCommandOptionsFromArgs(commandArguments),
-  );
+export const getCommandOptions = async (): Promise<CommandParameters> => {
+  const commandArguments = await yargs(hideBin(process.argv)).options(
+    commandLineConfigurations.COMMAND_OPTIONS,
+  ).argv;
+
+  return {
+    config: commandArguments.config as string,
+  };
 };
 
 /**
