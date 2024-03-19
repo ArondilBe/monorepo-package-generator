@@ -205,7 +205,7 @@ export const generatePackage = async (
   const packageCreationConfiguration = packageGenerationConfiguration
     ? packageGenerationConfiguration
     : await configFile.getPackageCreationConfiguration(
-        commandLine.getCommandOptions().config!,
+        (await commandLine.getCommandOptions()).config,
       );
 
   const sampleFilesFolderLocation = getSampleFilesFolderLocation(

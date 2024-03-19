@@ -1,3 +1,9 @@
+import { Options } from 'yargs';
+
 export type CommandOptions = {
-  config: string | undefined;
+  config: Options;
+};
+
+export type CommandParameters = {
+  config: string;
 };

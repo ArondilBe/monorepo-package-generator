@@ -3,7 +3,7 @@ export type {
   CreatedPackageSampleFilesInformation,
   CreatedPackageInformation,
 } from './packageCreation';
-export type { CommandOptions } from './commandLine';
+export type { CommandOptions, CommandParameters } from './commandLine';
 export type { PackageCreationConfiguration } from './configFile';
 export type {
   PackageGenerationErrorType,
