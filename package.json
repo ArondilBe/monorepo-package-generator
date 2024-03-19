@@ -20,7 +20,7 @@
   },
   "main": "./esm/index.js",
   "type": "commonjs",
-  "packageManager": "yarn@4.1.0",
+  "packageManager": "yarn@4.1.1",
   "scripts": {
     "build": "tsc -b tsconfig.json",
     "clean:build": "rm -rf ./esm/",
@@ -37,10 +37,10 @@
   "devDependencies": {
     "@types/inquirer": "^9.0.7",
     "@types/jest": "^29.5.12",
-    "@types/node": "^20.11.27",
+    "@types/node": "^20.11.30",
     "@types/yargs": "^17.0.32",
-    "@typescript-eslint/eslint-plugin": "^7.2.0",
-    "@typescript-eslint/parser": "^7.2.0",
+    "@typescript-eslint/eslint-plugin": "^7.3.1",
+    "@typescript-eslint/parser": "^7.3.1",
     "commitizen": "^4.3.0",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.57.0",
@@ -51,7 +51,7 @@
     "prettier": "^3.2.5",
     "ts-jest": "^29.1.2",
     "typescript": "^5.4.2",
-    "typescript-eslint": "^7.2.0"
+    "typescript-eslint": "^7.3.1"
   },
   "config": {
     "commitizen": {
