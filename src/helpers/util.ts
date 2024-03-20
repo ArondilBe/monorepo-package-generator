@@ -2,7 +2,7 @@ import stringParametersParser from '@arondilbe/string-parameters-parser';
 import chalk from 'chalk';
 
 import { util as utilConfigurations } from '../configurations';
-import { PackageGenerationErrorType } from '../types';
+import type { PackageGenerationErrorType } from '../types';
 
 /**
  * Throw an error with parameters set to their corresponding values and with the right color format

@@ -1,4 +1,4 @@
-import { PackageCreationConfiguration } from '../types';
+import type { PackageCreationConfiguration } from '../types';
 
 import * as configFile from './configFile';
 

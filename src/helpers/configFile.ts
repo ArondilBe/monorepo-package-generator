@@ -1,7 +1,7 @@
 import { existsSync } from 'fs';
 import { resolve } from 'path';
 
-import { PackageCreationConfiguration } from '../types';
+import type { PackageCreationConfiguration } from '../types';
 
 import * as commandLine from './commandLine';
 import * as util from './util';

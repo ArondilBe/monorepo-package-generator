@@ -1,4 +1,4 @@
-import { FoldersAbsolutePath } from './folder';
+import type { FoldersAbsolutePath } from './folder';
 export type CreatedPackageFolderInformation = {
   name: string;
   creationFolderLocation: string;
