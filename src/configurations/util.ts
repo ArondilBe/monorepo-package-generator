@@ -8,7 +8,7 @@ export const PACKAGE_GENERATION_ERROR: PackageGenerationError = {
   'Sample file folder': 'No sample files folder found at :path',
 };
 
-export const SUCCESS_MESSAGES = [
-  'New package of type :type created at :path',
-  'New package created at :path',
-];
+export const SUCCESS_MESSAGES: Record<string, string> = {
+  'Typed package': 'New package of type :type created at :path',
+  'Non typed package': 'New package created at :path',
+};

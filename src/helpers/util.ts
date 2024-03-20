@@ -23,3 +23,33 @@ export const throwPackageGenerationError = (
     );
   throw Error(chalk.red(`${errorType}: ${messageWithParameterValues}`));
 };
+
+/**
+ * Return the package generation formatted success message
+ * @param {string} packageLocation The location of the generated package
+ * @param {string} packageType The generated package's type (optional)
+ * @returns {string} The formatted success message
+ */
+export const getSuccessMessage = (
+  packageLocation: string,
+  packageType?: string,
+): string => {
+  const { SUCCESS_MESSAGES: successMessages } = utilConfigurations;
+
+  const successMessageParameters = {
+    path: packageLocation,
+  };
+
+  return stringParametersParser.getStringWithParameterValues(
+    utilConfigurations.STRING_PARAMETER_SYMBOL,
+    packageType
+      ? successMessages['Typed package']
+      : successMessages['Non typed package'],
+    packageType
+      ? {
+          ...successMessageParameters,
+          ...{ type: packageType },
+        }
+      : successMessageParameters,
+  );
+};

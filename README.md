@@ -40,7 +40,7 @@ Here's an example of a package generation configuration file:
 {
   "destinationFolderRelativePath": "./packages",
   "sampleFilesFolderRelativePath": "./sampleFilesExamples",
-  "packagesTypes": {
+  "packageTypes": {
     "helper": "helperPackage",
     "content": "contentPackage"
   }

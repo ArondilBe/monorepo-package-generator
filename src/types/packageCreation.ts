@@ -1,3 +1,4 @@
+import { FoldersAbsolutePath } from './folder';
 export type CreatedPackageFolderInformation = {
   name: string;
   creationFolderLocation: string;
@@ -8,5 +9,11 @@ export type CreatedPackageSampleFilesInformation = {
   sampleFilesFolderLocation: string;
 };
 
-export type CreatedPackageInformation = CreatedPackageFolderInformation &
+export type CreatedPackageInformations = CreatedPackageFolderInformation &
   CreatedPackageSampleFilesInformation;
+
+export type CreatedPackageInformation = {
+  name: string;
+  type: string;
+  paths: Partial<FoldersAbsolutePath>;
+};
