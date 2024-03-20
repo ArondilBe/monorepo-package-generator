@@ -9,4 +9,14 @@ export const COMMAND_OPTIONS: CommandOptions = {
     alias: 'c',
     default: './packageGeneration.config.json',
   },
+  name: {
+    type: 'string',
+    description: "Package to generate's name",
+    alias: 'n',
+  },
+  type: {
+    type: 'string',
+    description: "Package to generate's type",
+    alias: 't',
+  },
 };

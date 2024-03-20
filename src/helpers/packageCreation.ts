@@ -9,7 +9,7 @@ import type {
 } from '../types';
 
 import * as commandLine from './commandLine';
-import * as configFile from './configFile';
+import * as config from './config';
 import * as folder from './folder';
 import * as util from './util';
 
@@ -47,10 +47,13 @@ export const addSampleFiles = (
 export const generatePackage = async (
   packageGenerationConfiguration?: PackageCreationConfiguration,
 ): Promise<void> => {
-  const packageCreationConfiguration =
-    await configFile.getPackageCreationConfiguration(
-      packageGenerationConfiguration,
-    );
+  const commandParameters = await commandLine.getCommandOptions();
+
+  const packageCreationConfiguration = packageGenerationConfiguration
+    ? packageGenerationConfiguration
+    : await config.getPackageCreationConfigurationFromFile(
+        commandParameters.config,
+      );
 
   const foldersAbsolutePath: FoldersAbsolutePath = {
     destination: folder.getFolderLocation(
@@ -61,7 +64,7 @@ export const generatePackage = async (
     ),
   };
 
-  const arePackageTypesAreDefined = configFile.arePackageTypesAreDefined(
+  const arePackageTypesAreDefined = config.arePackageTypesAreDefined(
     packageCreationConfiguration.packageTypes,
   );
 
@@ -70,11 +73,21 @@ export const generatePackage = async (
       packageCreationConfiguration.packageTypes!,
       foldersAbsolutePath.sampleFiles,
     );
+
+    if (
+      commandParameters.type &&
+      !packageCreationConfiguration.packageTypes?.[commandParameters.type]
+    ) {
+      util.throwPackageGenerationError('Package type', {
+        type: commandParameters.type,
+      });
+    }
   }
 
   const createdPackageInformation: Partial<CreatedPackageInformation> = {};
 
-  createdPackageInformation.name = await commandLine.askPackageName();
+  createdPackageInformation.name =
+    commandParameters.name || (await commandLine.askPackageName());
   createdPackageInformation.paths = {};
   createdPackageInformation.paths.destination = folder.getFolderLocation(
     foldersAbsolutePath.destination,
@@ -86,9 +99,11 @@ export const generatePackage = async (
   );
 
   if (arePackageTypesAreDefined) {
-    createdPackageInformation.type = await commandLine.askPackageType(
-      Object.keys(packageCreationConfiguration.packageTypes!),
-    );
+    createdPackageInformation.type =
+      commandParameters.type ||
+      (await commandLine.askPackageType(
+        Object.keys(packageCreationConfiguration.packageTypes!),
+      ));
   }
 
   createdPackageInformation.paths.sampleFiles = createdPackageInformation.type

@@ -3,7 +3,6 @@ import { resolve } from 'path';
 
 import type { PackageCreationConfiguration } from '../types';
 
-import * as commandLine from './commandLine';
 import * as util from './util';
 
 /**
@@ -35,17 +34,3 @@ export const getPackageCreationConfigurationFromFile = async (
 export const arePackageTypesAreDefined = (
   packageTypes?: Record<string, string>,
 ): boolean => !!packageTypes && !!Object.keys(packageTypes).length;
-
-/**
- * Return the package creation configuration to use. If an object is directly passed, it will be used instead of the file content
- * @param {PackageCreationConfiguration} packageGenerationConfiguration The configuration object (optional)
- * @return {Promise<PackageCreationConfiguration>} The package creation configuration to use
- */
-export const getPackageCreationConfiguration = async (
-  packageGenerationConfiguration?: PackageCreationConfiguration,
-): Promise<PackageCreationConfiguration> =>
-  packageGenerationConfiguration
-    ? packageGenerationConfiguration
-    : getPackageCreationConfigurationFromFile(
-        (await commandLine.getCommandOptions()).config,
-      );

@@ -61,7 +61,7 @@ export const checkPackageTypesSubFolderDefinition = (
   }
 
   if (undefinedPackageTypes.length) {
-    util.throwPackageGenerationError('Package type', {
+    util.throwPackageGenerationError('Package types', {
       packageTypes: undefinedPackageTypes,
     });
   }

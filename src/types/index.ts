@@ -5,7 +5,7 @@ export type {
   CreatedPackageInformation,
 } from './packageCreation';
 export type { CommandOptions, CommandParameters } from './commandLine';
-export type { PackageCreationConfiguration } from './configFile';
+export type { PackageCreationConfiguration } from './config';
 export type {
   PackageGenerationErrorType,
   PackageGenerationError,
