@@ -6,7 +6,7 @@ import { commandLine as commandLineConfigurations } from '../configurations';
 import type { CommandParameters } from '../types';
 
 /**
- * Return the command options based on the command line args
+ * Return the command parameters based on the command line args
  * @returns {Promise<CommandParameters>} The command parameters
  */
 export const getCommandOptions = async (): Promise<CommandParameters> => {
@@ -15,6 +15,8 @@ export const getCommandOptions = async (): Promise<CommandParameters> => {
   ).argv;
   return {
     config: commandArguments.config as string,
+    name: commandArguments.name as string,
+    type: commandArguments.type as string,
   };
 };
 

@@ -4,7 +4,9 @@ export const STRING_PARAMETER_SYMBOL = ':';
 export const PACKAGE_GENERATION_ERROR: PackageGenerationError = {
   'Configuration file missing': "File :path doesn't exist",
   'Package already exists': 'Folder :package already exists at :path',
-  'Package type': "The following package types doesn't exist: :packageTypes",
+  'Package types': "The following package types doesn't exist: :packageTypes",
+  'Package type':
+    "The given package type :type isn't defined in the configuration file",
   'Sample file folder': 'No sample files folder found at :path',
 };
 
