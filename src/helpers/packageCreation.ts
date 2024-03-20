@@ -2,7 +2,7 @@ import { cpSync, mkdirSync } from 'fs';
 
 import chalk from 'chalk';
 
-import {
+import type {
   CreatedPackageInformation,
   FoldersAbsolutePath,
   PackageCreationConfiguration,

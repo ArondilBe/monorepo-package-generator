@@ -3,7 +3,7 @@ import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 
 import { commandLine as commandLineConfigurations } from '../configurations';
-import { CommandParameters } from '../types';
+import type { CommandParameters } from '../types';
 
 /**
  * Return the command options based on the command line args

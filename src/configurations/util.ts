@@ -1,4 +1,4 @@
-import { PackageGenerationError } from '../types';
+import type { PackageGenerationError } from '../types';
 export const STRING_PARAMETER_SYMBOL = ':';
 
 export const PACKAGE_GENERATION_ERROR: PackageGenerationError = {

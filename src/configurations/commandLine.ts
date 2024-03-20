@@ -1,4 +1,4 @@
-import { CommandOptions } from '../types';
+import type { CommandOptions } from '../types';
 export const ARGUMENT_SYMBOL = '--';
 
 export const COMMAND_OPTIONS: CommandOptions = {
