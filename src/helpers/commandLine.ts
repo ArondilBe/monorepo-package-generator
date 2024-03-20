@@ -13,7 +13,6 @@ export const getCommandOptions = async (): Promise<CommandParameters> => {
   const commandArguments = await yargs(hideBin(process.argv)).options(
     commandLineConfigurations.COMMAND_OPTIONS,
   ).argv;
-
   return {
     config: commandArguments.config as string,
   };
@@ -23,7 +22,7 @@ export const getCommandOptions = async (): Promise<CommandParameters> => {
  * Ask information to the user to generate the package
  * @returns {string} the package name
  */
-export const askPackageInformation = async (): Promise<string> => {
+export const askPackageName = async (): Promise<string> => {
   const askedPackageName = await inquirer.prompt({
     name: 'package_name',
     type: 'input',
