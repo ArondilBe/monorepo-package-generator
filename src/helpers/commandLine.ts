@@ -1,81 +1,30 @@
 import inquirer from 'inquirer';
+import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers';
 
 import { commandLine as commandLineConfigurations } from '../configurations';
-import { CommandOptions } from '../types';
-
-import * as util from './util';
+import type { CommandParameters } from '../types';
 
 /**
- * Return an object containing all the command arguments values
- * @param {string[]} args The arguments passed by the command
- * @returns {CommandLineOptions} The command line arguments values
- * @throws {Error} If one argument is invalid or has no value
+ * Return the command parameters based on the command line args
+ * @returns {Promise<CommandParameters>} The command parameters
  */
-export const getCommandOptionsFromArgs = (args: string[]) => {
-  const { ARGUMENT_SYMBOL: argumentSymbol } = commandLineConfigurations;
-
-  const commandOptions: CommandOptions = {
-    config: undefined,
+export const getCommandOptions = async (): Promise<CommandParameters> => {
+  const commandArguments = await yargs(hideBin(process.argv)).options(
+    commandLineConfigurations.COMMAND_OPTIONS,
+  ).argv;
+  return {
+    config: commandArguments.config as string,
+    name: commandArguments.name as string,
+    type: commandArguments.type as string,
   };
-  const commandLineKeys = Object.keys(commandOptions);
-  for (let argIndex = 0; argIndex < args.length; argIndex += 1) {
-    const currentArg = args[argIndex];
-    if (currentArg.startsWith(argumentSymbol)) {
-      const key = currentArg.slice(2);
-      if (!commandLineKeys.includes(key)) {
-        util.throwPackageGenerationError('Command argument', {
-          argument: currentArg.slice(2),
-        });
-      }
-      if (!args[argIndex + 1]) {
-        util.throwPackageGenerationError('Command value', {
-          argument: currentArg,
-        });
-      }
-      commandOptions[key as keyof CommandOptions] = args[argIndex + 1];
-    }
-  }
-
-  return commandOptions;
-};
-
-/**
- * Return the command options with the default value put for undefined options
- * @param {CommandOptions} promptedCommandOptions The command options from the command line
- * @returns {CommandOptions} The command options with the default value put for undefined options
- */
-export const getCommandOptionsWithDefaultValues = (
-  promptedCommandOptions: CommandOptions,
-): CommandOptions => {
-  const { DEFAULT_COMMAND_OPTIONS: defaultCommandOptions } =
-    commandLineConfigurations;
-  const commandOptions = structuredClone(promptedCommandOptions);
-  const commandOptionsKeys = Object.keys(defaultCommandOptions);
-  commandOptionsKeys.forEach((commandOptionKey) => {
-    const typedKey = commandOptionKey as keyof CommandOptions;
-    if (!promptedCommandOptions[typedKey]) {
-      commandOptions[typedKey] = defaultCommandOptions[typedKey];
-    }
-  });
-  return commandOptions;
-};
-
-/**
- * Return the command options based on the command line args
- * @returns {CommandOptions} The command options
- */
-export const getCommandOptions = (): CommandOptions => {
-  const commandArguments = process.argv.slice(2);
-  return getCommandOptionsWithDefaultValues(
-    getCommandOptionsFromArgs(commandArguments),
-  );
 };
 
 /**
  * Ask information to the user to generate the package
  * @returns {string} the package name
  */
-export const askPackageInformation = async (): Promise<string> => {
+export const askPackageName = async (): Promise<string> => {
   const askedPackageName = await inquirer.prompt({
     name: 'package_name',
     type: 'input',

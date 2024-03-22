@@ -2,7 +2,7 @@ import stringParametersParser from '@arondilbe/string-parameters-parser';
 import chalk from 'chalk';
 
 import { util as utilConfigurations } from '../configurations';
-import { PackageGenerationErrorType } from '../types';
+import type { PackageGenerationErrorType } from '../types';
 
 /**
  * Throw an error with parameters set to their corresponding values and with the right color format
@@ -22,4 +22,34 @@ export const throwPackageGenerationError = (
       parameters,
     );
   throw Error(chalk.red(`${errorType}: ${messageWithParameterValues}`));
+};
+
+/**
+ * Return the package generation formatted success message
+ * @param {string} packageLocation The location of the generated package
+ * @param {string} packageType The generated package's type (optional)
+ * @returns {string} The formatted success message
+ */
+export const getSuccessMessage = (
+  packageLocation: string,
+  packageType?: string,
+): string => {
+  const { SUCCESS_MESSAGES: successMessages } = utilConfigurations;
+
+  const successMessageParameters = {
+    path: packageLocation,
+  };
+
+  return stringParametersParser.getStringWithParameterValues(
+    utilConfigurations.STRING_PARAMETER_SYMBOL,
+    packageType
+      ? successMessages['Typed package']
+      : successMessages['Non typed package'],
+    packageType
+      ? {
+          ...successMessageParameters,
+          ...{ type: packageType },
+        }
+      : successMessageParameters,
+  );
 };

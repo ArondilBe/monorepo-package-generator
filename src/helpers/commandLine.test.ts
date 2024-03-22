@@ -1,59 +1,114 @@
-import { commandLine as commandLineConfigurations } from '../configurations';
-import { CommandOptions } from '../types';
+import * as commandLine from './commandLine';
 
-import * as commandLineHelpers from './commandLine';
+let originalArgv: string[];
 
-const fullyPromptedCommandOptions: CommandOptions = {
-  config: './src/packageGenerationExample.config.json',
+const processArgv = {
+  common: [
+    'C:\\Program Files\\nodejs\\node.exe',
+    'C:\\Users\\User\\Desktop\\monorepo-package-generator\\esm\\scripts\\generatePackage.js',
+  ],
+  config: ['--config', './packageGenerationExample.config.json'],
+  name: ['--name', 'newPackage'],
+
+  type: ['--type', 'content'],
 };
 
-const undefinedPromptedCommandOptions: CommandOptions = {
-  config: undefined,
+const commandParameters = {
+  defaultConfig: { config: './packageGeneration.config.json' },
+  config: { config: './packageGenerationExample.config.json' },
+  name: { name: 'newPackage' },
+  type: { type: 'content' },
 };
 
-describe('getCommandOptionsFromArgs', () => {
-  it('Argument without value', () => {
-    () =>
-      expect(
-        commandLineHelpers.getCommandOptionsFromArgs(['--config']),
-      ).toThrow(Error);
+describe('getCommandOptions', () => {
+  beforeEach(() => {
+    jest.resetModules();
+    originalArgv = process.argv;
   });
 
-  it('Invalid argument', () => {
-    () =>
-      expect(
-        commandLineHelpers.getCommandOptionsFromArgs([
-          '--configuration',
-          './src/packageGenerationExample.config.json',
-        ]),
-      ).toThrow(Error);
+  afterEach(() => {
+    jest.resetAllMocks();
+    process.argv = originalArgv;
   });
 
-  it('Valid argument', () => {
-    () =>
-      expect(
-        commandLineHelpers.getCommandOptionsFromArgs([
-          '--config',
-          './src/packageGenerationExample.config.json',
-        ]),
-      ).toThrow(Error);
-  });
-});
-
-describe('getCommandOptionsWithDefaultValues', () => {
-  it('All parameter are defined', () => {
-    expect(
-      commandLineHelpers.getCommandOptionsWithDefaultValues(
-        fullyPromptedCommandOptions,
-      ),
-    ).toEqual(fullyPromptedCommandOptions);
+  it('No argument passed', async () => {
+    process.argv = processArgv.common;
+    expect(await commandLine.getCommandOptions()).toEqual(
+      commandParameters.defaultConfig,
+    );
   });
 
-  it('Config parameter is undefined', () => {
-    expect(
-      commandLineHelpers.getCommandOptionsWithDefaultValues(
-        undefinedPromptedCommandOptions,
-      ),
-    ).toEqual(commandLineConfigurations.DEFAULT_COMMAND_OPTIONS);
+  it('Only config passed', async () => {
+    process.argv = [...processArgv.common, ...processArgv.config];
+    expect(await commandLine.getCommandOptions()).toEqual(
+      commandParameters.config,
+    );
+  });
+
+  it('Only name passed', async () => {
+    process.argv = [...processArgv.common, ...processArgv.name];
+    expect(await commandLine.getCommandOptions()).toEqual({
+      ...commandParameters.defaultConfig,
+      ...commandParameters.name,
+    });
+  });
+
+  it('Only type passed', async () => {
+    process.argv = [...processArgv.common, ...processArgv.type];
+    expect(await commandLine.getCommandOptions()).toEqual({
+      ...commandParameters.defaultConfig,
+      ...commandParameters.type,
+    });
+  });
+
+  it('Config and name passed', async () => {
+    process.argv = [
+      ...processArgv.common,
+      ...processArgv.config,
+      ...processArgv.name,
+    ];
+    expect(await commandLine.getCommandOptions()).toEqual({
+      ...commandParameters.config,
+      ...commandParameters.name,
+    });
+  });
+
+  it('Config and type passed', async () => {
+    process.argv = [
+      ...processArgv.common,
+      ...processArgv.config,
+      ...processArgv.type,
+    ];
+    expect(await commandLine.getCommandOptions()).toEqual({
+      ...commandParameters.config,
+      ...commandParameters.type,
+    });
+  });
+
+  it('Name and type passed', async () => {
+    process.argv = [
+      ...processArgv.common,
+      ...processArgv.name,
+      ...processArgv.type,
+    ];
+    expect(await commandLine.getCommandOptions()).toEqual({
+      ...commandParameters.defaultConfig,
+      ...commandParameters.name,
+      ...commandParameters.type,
+    });
+  });
+
+  it('All parameters passed passed', async () => {
+    process.argv = [
+      ...processArgv.common,
+      ...processArgv.config,
+      ...processArgv.name,
+      ...processArgv.type,
+    ];
+    expect(await commandLine.getCommandOptions()).toEqual({
+      ...commandParameters.config,
+      ...commandParameters.name,
+      ...commandParameters.type,
+    });
   });
 });

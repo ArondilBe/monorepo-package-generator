@@ -1,6 +1,6 @@
 {
   "name": "@arondilbe/monorepo-package-generator",
-  "version": "0.0.7",
+  "version": "1.0.0",
   "description": "The package 'package-generator' goal is to provide an easy to use tool to generate packages for monorepo. The generated packages are based on sample files and folders.",
   "keywords": [
     "package",
@@ -18,27 +18,32 @@
     "type": "git",
     "url": "https://github.com/arondilbe/monorepo-package-generator"
   },
-  "main": "./esm/index.js",
+  "main": "./build/index.js",
   "type": "commonjs",
-  "packageManager": "yarn@4.1.0",
+  "packageManager": "yarn@4.1.1",
+  "bin": {
+    "generatePackage": "./bin/generatePackage.js"
+  },
   "scripts": {
     "build": "tsc -b tsconfig.json",
-    "clean:build": "rm -rf ./esm/",
+    "clean:build": "rm -rf ./build/",
     "test": "jest",
     "commit": "cz",
-    "package:generate": "node ./esm/scripts/generatePackage.js --config ./packageGenerationExample.config.json"
+    "package:generate": "node ./bin/generatePackage.js --config ./packageGenerationExample.config.json"
   },
   "dependencies": {
     "@arondilbe/string-parameters-parser": "^1.0.1",
     "chalk": "^4.1.2",
-    "inquirer": "^8.2.6"
+    "inquirer": "^8.2.6",
+    "yargs": "^17.7.2"
   },
   "devDependencies": {
     "@types/inquirer": "^9.0.7",
     "@types/jest": "^29.5.12",
-    "@types/node": "^20.11.27",
-    "@typescript-eslint/eslint-plugin": "^7.2.0",
-    "@typescript-eslint/parser": "^7.2.0",
+    "@types/node": "^20.11.30",
+    "@types/yargs": "^17.0.32",
+    "@typescript-eslint/eslint-plugin": "^7.3.1",
+    "@typescript-eslint/parser": "^7.3.1",
     "commitizen": "^4.3.0",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.57.0",
@@ -49,7 +54,7 @@
     "prettier": "^3.2.5",
     "ts-jest": "^29.1.2",
     "typescript": "^5.4.2",
-    "typescript-eslint": "^7.2.0"
+    "typescript-eslint": "^7.3.1"
   },
   "config": {
     "commitizen": {
