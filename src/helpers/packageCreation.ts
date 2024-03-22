@@ -139,6 +139,6 @@ export const generatePackage = async (
         createdPackageInformation.paths.destination,
         createdPackageInformation.type,
       ),
-    ) + packageCreationConfiguration.version,
+    ),
   );
 };

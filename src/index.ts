@@ -7,5 +7,5 @@ export type {
   PackageCreationConfiguration,
   CreatedPackageFolderInformation,
   CreatedPackageSampleFilesInformation,
-  CreatedPackageInformations,
+  CreatedPackageInformation,
 } from './types';

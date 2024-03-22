@@ -9,9 +9,6 @@ export type CreatedPackageSampleFilesInformation = {
   sampleFilesFolderLocation: string;
 };
 
-export type CreatedPackageInformations = CreatedPackageFolderInformation &
-  CreatedPackageSampleFilesInformation;
-
 export type CreatedPackageInformation = {
   name: string;
   type: string;

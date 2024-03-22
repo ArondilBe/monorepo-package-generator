@@ -6,40 +6,77 @@
   - [Table of Contents](#table-of-contents)
   - [About tre package](#about-tre-package)
   - [How to generate package](#how-to-generate-package)
+    - [Add the sample files](#add-the-sample-files)
+      - [Example of sample files folder](#example-of-sample-files-folder)
     - [Create the configuration file](#create-the-configuration-file)
-    - [Create the sample files folder](#create-the-sample-files-folder)
-    - [Call the package generation function](#call-the-package-generation-function)
-  - [Contributing to this project](#contributing-to-this-project)
-    - [Git process](#git-process)
-      - [Branching and commit convention](#branching-and-commit-convention)
-      - [Submitting code](#submitting-code)
-      - [Behavior](#behavior)
-    - [Coding rules](#coding-rules)
-      - [Files](#files)
-      - [Code conventions](#code-conventions)
+      - [Example of configuration file](#example-of-configuration-file)
+      - [Using an object instead of a file](#using-an-object-instead-of-a-file)
+    - [Using the package generation script](#using-the-package-generation-script)
+      - [Command options](#command-options)
 
 ## About tre package
 
-The package @arondilbe/monorepo-package-generator's goal is to standardize and ease the way of creating packages in monorepo. It allows the user to generate new packages based on sample models. All this, based on a configuration file.
+The goal of @arondilbe/monorepo-package-generator is the ease the way of creating packages in a monorepo based on sample files.
+The idea is to have a short configuration file and then as many as package types as wanted.
 
 ## How to generate package
 
+### Add the sample files
+
+The first thing to do is to create a **folder** which will contains all the sample files used for data generation. This **folder's name** doesn't matter and it can placed **anywhere**.
+
+The sample files folder can be structure in **two ways**:
+
+- **All files** directly placed in the main folder
+- Creating sub folders into the main one to create **package types**
+
+The sample files can be of **any type**.
+
+#### Example of sample files folder
+
+**No package types**:
+
+- Sample files folder:
+  - File1
+  - File2
+  - ...
+  - FileX
+
+**Package types**:
+
+- Sample files folder:
+  - Sub folder 1:
+    - File1
+    - File2
+  - Sub folder 2:
+    - File1
+    - File2
+    - ...
+    - FileX
+  - ...
+  - Sub folder X:
+    - File1
+
 ### Create the configuration file
 
-The first thing to do is to create and set the package creation's configuration file. It is easy to set up. First, you need to create a **`.json`** file.
+The next step is to create a `.json` configuration file. This file can be placed **anywhere** and its **name** doesn't matter (the **default name** use by the script, if no other file name is defined, will be `./packageGeneration.config.json`).
 
-Inside this configuration file you'll need to define some parameters:
+The package generation require **a few** parameters:
 
-- **`destinationFolderRelativePath`**: The relative path of the folder into which your packages will be generated (if some folders included in the path don't exist they'll be created too)
-- **`sampleFilesFolderRelativePath`**: The relative path of the folder which will contains your sample files
-- **`packagesTypes`**: An object containing a list of the packages types that can be generated. Each package type is a **`Record`** composed of a **`key`** which will used as the **package type's name** and a **`value`** which should be the **name of a subfolder included into the main sample files folder**
+- **destinationFolderRelativePath**: `[string]` The relative path of the folder where the new packages should be created
+- **sampleFilesFolderRelativePath**: `[string]` The relative path of the folder containing the sample files
+- **version**: `[string]` Optional parameter. The version to set into the `package.json` file (for packages having one)
+- **packageTypes**: `[Record<string,string>]` Optional parameter. A list of package types that can be created. The **key** is the value used to **identify** the package type and the **value** is the **name** of the corresponding **sub folder**
 
-Here's an example of a package generation configuration file:
+#### Example of configuration file
+
+**packageGenerationExample.config.json**:
 
 ```json
 {
   "destinationFolderRelativePath": "./packages",
   "sampleFilesFolderRelativePath": "./sampleFilesExamples",
+  "version": "0.1.0",
   "packageTypes": {
     "helper": "helperPackage",
     "content": "contentPackage"
@@ -47,76 +84,47 @@ Here's an example of a package generation configuration file:
 }
 ```
 
-### Create the sample files folder
+#### Using an object instead of a file
 
-The next step is to create a sample files folder which will contain all the files that will be copied in the generated packages. The files can be placed into folders which will also be copied.
+If you don't want to use a configuration file you can also define an **object** of type `PackageCreationConfiguration`:
 
-If you want to create several packages types to generate you can places your files into folders with the same names as defined in the configuration files.
+```typescript
+export type PackageCreationConfiguration = {
+  destinationFolderRelativePath: string;
+  sampleFilesFolderRelativePath: string;
+  version: string;
+  packageTypes?: Record<string, string>;
+};
 
-### Call the package generation function
-
-To call the package generation function, you can create a script calling the function **`generatePackage`** from the **`packageCreation`** **helper**.
-
-This function can take the **`relative path of a configuration file`** as an **optional** parameter if you want to call the function directly in another piece of code instead of calling it by a command.
-
-If you decide to call the package generation function by a command you'll have to pass the **`relative path of a configuration file`** in the **command line** with the argument **`--config`**.
-
-Here's an example of a command definition to call the package generation:
-
-```json
- "scripts": {
-    "package:generate": "node ./esm/scripts/generatePackage.js --config ./packageGenerationExample.config.json"
+const configurationObject: PackageCreationConfiguration = {
+  destinationFolderRelativePath: '../fakeDestinationFolder',
+  sampleFilesFolderRelativePath: '../fakeSampleFilesFolder',
+  packageTypes: {
+    'fake type': 'fakeType',
   },
+  version: '0.0.2',
+};
 ```
 
-## Contributing to this project
+### Using the package generation script
 
-There are some rules to respect to contribute to this projects for both git process and code conventions.
+To call the package generation script you can call the command `generatePackage`
 
-### Git process
+The command will start a prompt in which you'll be asked the package name and the package type (if package types are defined).
 
-#### Branching and commit convention
+If your new package contains a `package.json` file its **name property** will by replaced by the **name you gave to the package** and if a **version** is defined in the **configuration file** it will replace its **version property**.
 
-- You should create your branch using git flow:
-  - **main** branch should be set for **production releases**
-  - **develop** branch should be set for **next release development**
-  - All other options should keep their default values
-- You should always create a branch for a new modification
-- Your modification should be scoped and not modify too much stuff
-- You should build your commit using the command **`yarn commit`**
-  - Your commit message should follow those [best practices](https://cbea.ms/git-commit/)
-  - Do not set **Breaking change** to **yes** unless it's really the case
-  - Always link your modification to an existing issue
+**Example**
 
-#### Submitting code
+```
+yarn generatePackage
+```
 
-- Always create a pull request
-- Always put **Arondilbe** as reviewer on your pull request
-- Do not push a new commit on your branch until you got all the reviewers feedbacks
+#### Command options
 
-#### Behavior
+The `generatePackage` command can takes several arguments. The most important being `--config` or `-c` followed by the **relative path** of your configuration file.
 
-- Do not take comments personally
-- If you don't agree on a comment discuss it with the reviewer
-- Make constructive comments
-- Do not let a pull request unreviewed for too long
+You can also pass arguments to bypass the prompt and generate your package directly:
 
-### Coding rules
-
-#### Files
-
-- All files name should be in **camel case**
-- All code file should be written in **typescript**
-- All files should be organized into the different folders
-
-#### Code conventions
-
-- Never use **`var`** use **`let`** instead
-- Avoid **nested** code
-- Always type
-- Always add a clear **`function declaration`**
-- Add clear **`jsdoc`** to your functions
-- Add **`unit tests`** when it's possible
-- No static values outside configuration files
-- Variable and functions names should be written in **camel case**
-- Configurations variables should be written in **const case**
+- `--name` or `-n`: To pass the package's name
+- `--type` or `-t`: To pass the package's type (if package types are defined)

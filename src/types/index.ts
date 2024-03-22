@@ -1,7 +1,6 @@
 export type {
   CreatedPackageFolderInformation,
   CreatedPackageSampleFilesInformation,
-  CreatedPackageInformations,
   CreatedPackageInformation,
 } from './packageCreation';
 export type { CommandOptions, CommandParameters } from './commandLine';
