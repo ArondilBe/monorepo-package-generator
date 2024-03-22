@@ -10,6 +10,7 @@ import type {
 
 import * as commandLine from './commandLine';
 import * as config from './config';
+import * as file from './file';
 import * as folder from './folder';
 import * as util from './util';
 
@@ -121,6 +122,16 @@ export const generatePackage = async (
     createdPackageInformation.paths.sampleFiles,
   );
 
+  if (
+    file.doesPackageHasAPackageJson(createdPackageInformation.paths.destination)
+  ) {
+    await file.modifyPackageJsonInformation(
+      createdPackageInformation.paths.destination,
+      createdPackageInformation.name,
+      packageCreationConfiguration.version,
+    );
+  }
+
   // eslint-disable-next-line no-console
   console.log(
     chalk.green(
@@ -128,6 +139,6 @@ export const generatePackage = async (
         createdPackageInformation.paths.destination,
         createdPackageInformation.type,
       ),
-    ),
+    ) + packageCreationConfiguration.version,
   );
 };

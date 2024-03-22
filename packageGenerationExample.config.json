@@ -1,6 +1,7 @@
 {
   "destinationFolderRelativePath": "./packages",
   "sampleFilesFolderRelativePath": "./sampleFilesExamples",
+  "version": "0.1.0",
   "packageTypes": {
     "helper": "helperPackage",
     "content": "contentPackage"
