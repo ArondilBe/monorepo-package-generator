@@ -12,6 +12,7 @@ const packageCreationConfiguration: Record<
     packageTypes: {
       'fake type': 'fakeType',
     },
+    version: '0.0.2',
   },
   fromFile: {
     destinationFolderRelativePath: './packages',
@@ -20,6 +21,7 @@ const packageCreationConfiguration: Record<
       helper: 'helperPackage',
       content: 'contentPackage',
     },
+    version: '0.1.0',
   },
 };
 
