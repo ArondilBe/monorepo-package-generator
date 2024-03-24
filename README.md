@@ -10,9 +10,10 @@
       - [Example of sample files folder](#example-of-sample-files-folder)
     - [Create the configuration file](#create-the-configuration-file)
       - [Example of configuration file](#example-of-configuration-file)
-      - [Using an object instead of a file](#using-an-object-instead-of-a-file)
     - [Using the package generation script](#using-the-package-generation-script)
       - [Command options](#command-options)
+  - [Using the API](#using-the-api)
+    - [Using an object instead of a file](#using-an-object-instead-of-a-file)
 
 ## About tre package
 
@@ -84,28 +85,6 @@ The package generation require **a few** parameters:
 }
 ```
 
-#### Using an object instead of a file
-
-If you don't want to use a configuration file you can also define an **object** of type `PackageCreationConfiguration`:
-
-```typescript
-export type PackageCreationConfiguration = {
-  destinationFolderRelativePath: string;
-  sampleFilesFolderRelativePath: string;
-  version: string;
-  packageTypes?: Record<string, string>;
-};
-
-const configurationObject: PackageCreationConfiguration = {
-  destinationFolderRelativePath: '../fakeDestinationFolder',
-  sampleFilesFolderRelativePath: '../fakeSampleFilesFolder',
-  packageTypes: {
-    'fake type': 'fakeType',
-  },
-  version: '0.0.2',
-};
-```
-
 ### Using the package generation script
 
 To call the package generation script you can call the command `generatePackage`
@@ -128,3 +107,62 @@ You can also pass arguments to bypass the prompt and generate your package direc
 
 - `--name` or `-n`: To pass the package's name
 - `--type` or `-t`: To pass the package's type (if package types are defined)
+
+## Using the API
+
+Instead of directly call the command from the bin file, you can also, create a script which will call functions of the API.
+
+To do that you can import `monorepoPackageGenerator` from `@arondilbe/monorepo-package-generator` and then call the function `packageCreation` from `helpers.packageCreation`:
+
+```typescript
+import monorepoPackageGenerator from '@arondilbe/monorepo-package-generator';
+
+(async () => {
+  await monorepoPackageGenerator.helpers.packageCreation.generatePackage();
+})();
+```
+
+You can then call your own custom command with the same parameters.
+
+### Using an object instead of a file
+
+If you don't want to use a configuration file you can also define an **object** of type `PackageCreationConfiguration`:
+
+```typescript
+export type PackageCreationConfiguration = {
+  destinationFolderRelativePath: string;
+  sampleFilesFolderRelativePath: string;
+  version: string;
+  packageTypes?: Record<string, string>;
+};
+
+const configurationObject: PackageCreationConfiguration = {
+  destinationFolderRelativePath: './packages',
+  sampleFilesFolderRelativePath: './sampleFilesExamples',
+  version: '0.1.0',
+  packageTypes: {
+    helper: 'helperPackage',
+    content: 'contentPackage',
+  },
+};
+```
+
+You can then pass the configuration object to the `generatePackage` function:
+
+```typescript
+const configurationObject: PackageCreationConfiguration = {
+  destinationFolderRelativePath: './packages',
+  sampleFilesFolderRelativePath: './sampleFilesExamples',
+  version: '0.1.0',
+  packageTypes: {
+    helper: 'helperPackage',
+    content: 'contentPackage',
+  },
+};
+
+(async () => {
+  await monorepoPackageGenerator.helpers.packageCreation.generatePackage(
+    configurationObject,
+  );
+})();
+```
