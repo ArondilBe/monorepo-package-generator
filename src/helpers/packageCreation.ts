@@ -6,6 +6,7 @@ import type {
   CreatedPackageInformation,
   FoldersAbsolutePath,
   PackageCreationConfiguration,
+  PackageInformation,
 } from '../types';
 
 import * as commandLine from './commandLine';
@@ -43,12 +44,26 @@ export const addSampleFiles = (
 
 /**
  * Main function to generate a package
- * @param {PackageCreationConfiguration} packageGenerationConfiguration The configuration object (optional)
+ * @param {Object=} generationOptions The optional options of the package generation
+ * @param {PackageCreationConfiguration} generationOptions.packageGenerationConfiguration The configuration object (optional)
+ * @param {Partial<PackageInformation>} generationOptions.packageInformation The package to create's information (name and type) (optional)
  */
-export const generatePackage = async (
-  packageGenerationConfiguration?: PackageCreationConfiguration,
-): Promise<void> => {
+export const generatePackage = async (generationOptions?: {
+  packageGenerationConfiguration?: PackageCreationConfiguration;
+  packageInformation?: Partial<PackageInformation>;
+}): Promise<void> => {
+  const { packageGenerationConfiguration, packageInformation } =
+    generationOptions || {};
+
+  const createdPackageInformation: Partial<CreatedPackageInformation> = {};
+
   const commandParameters = await commandLine.getCommandOptions();
+
+  if (packageInformation) {
+    createdPackageInformation.name = packageInformation.name;
+    createdPackageInformation.type =
+      packageInformation.type || commandParameters.type;
+  }
 
   const packageCreationConfiguration = packageGenerationConfiguration
     ? packageGenerationConfiguration
@@ -76,19 +91,22 @@ export const generatePackage = async (
     );
 
     if (
-      commandParameters.type &&
-      !packageCreationConfiguration.packageTypes?.[commandParameters.type]
+      createdPackageInformation.type &&
+      !packageCreationConfiguration.packageTypes?.[
+        createdPackageInformation.type
+      ]
     ) {
       util.throwPackageGenerationError('Package type', {
-        type: commandParameters.type,
+        type: createdPackageInformation.type,
       });
     }
   }
 
-  const createdPackageInformation: Partial<CreatedPackageInformation> = {};
+  if (!createdPackageInformation.name) {
+    createdPackageInformation.name =
+      commandParameters.name || (await commandLine.askPackageName());
+  }
 
-  createdPackageInformation.name =
-    commandParameters.name || (await commandLine.askPackageName());
   createdPackageInformation.paths = {};
   createdPackageInformation.paths.destination = folder.getFolderLocation(
     foldersAbsolutePath.destination,
@@ -100,11 +118,13 @@ export const generatePackage = async (
   );
 
   if (arePackageTypesAreDefined) {
-    createdPackageInformation.type =
-      commandParameters.type ||
-      (await commandLine.askPackageType(
-        Object.keys(packageCreationConfiguration.packageTypes!),
-      ));
+    if (!createdPackageInformation.type) {
+      createdPackageInformation.type =
+        commandParameters.type ||
+        (await commandLine.askPackageType(
+          Object.keys(packageCreationConfiguration.packageTypes!),
+        ));
+    }
   }
 
   createdPackageInformation.paths.sampleFiles = createdPackageInformation.type
