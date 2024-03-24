@@ -9,8 +9,11 @@ export type CreatedPackageSampleFilesInformation = {
   sampleFilesFolderLocation: string;
 };
 
-export type CreatedPackageInformation = {
+export type PackageInformation = {
   name: string;
   type: string;
+};
+
+export type CreatedPackageInformation = PackageInformation & {
   paths: Partial<FoldersAbsolutePath>;
 };

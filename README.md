@@ -14,6 +14,7 @@
       - [Command options](#command-options)
   - [Using the API](#using-the-api)
     - [Using an object instead of a file](#using-an-object-instead-of-a-file)
+    - [Passing the package's information through the function](#passing-the-packages-information-through-the-function)
 
 ## About tre package
 
@@ -147,7 +148,7 @@ const configurationObject: PackageCreationConfiguration = {
 };
 ```
 
-You can then pass the configuration object to the `generatePackage` function:
+You can then pass the configuration object to the `generatePackage` function into its `generationOptions` object as the `packageGenerationConfiguration` property:
 
 ```typescript
 const configurationObject: PackageCreationConfiguration = {
@@ -161,8 +162,25 @@ const configurationObject: PackageCreationConfiguration = {
 };
 
 (async () => {
-  await monorepoPackageGenerator.helpers.packageCreation.generatePackage(
-    configurationObject,
-  );
+  await monorepoPackageGenerator.helpers.packageCreation.generatePackage({
+    packageGenerationConfiguration: configurationObject,
+  });
+})();
+```
+
+### Passing the package's information through the function
+
+If you don't want to pass information through the command or through the prompt, you can also pass them through an object to the `generatePackage` function. You can pass both `name` or `type` or **only** one of them:
+
+```typescript
+const information: PackageInformation = {
+  name: 'packageName',
+  type: 'packageType',
+};
+
+(async () => {
+  await monorepoPackageGenerator.helpers.packageCreation.generatePackage({
+    packageInformation: information,
+  });
 })();
 ```

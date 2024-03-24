@@ -29,7 +29,8 @@
     "clean:build": "rm -rf ./build/",
     "test": "jest",
     "commit": "cz",
-    "package:generate": "node ./bin/generatePackage.js --config ./packageGenerationExample.config.json"
+    "package:generate:bin": "node ./bin/generatePackage.js --config ./packageGenerationExample.config.json",
+    "package:generate:script": "node ./build/scripts/generatePackage.js --config ./packageGenerationExample.config.json"
   },
   "dependencies": {
     "@arondilbe/string-parameters-parser": "^1.0.1",
