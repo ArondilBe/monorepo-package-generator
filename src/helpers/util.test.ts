@@ -15,13 +15,13 @@ describe('throwPackageGenerationError', () => {
 describe('getSuccessMessage', () => {
   it('Non typed package', () => {
     expect(util.getSuccessMessage(fakePackagePath)).toEqual(
-      `New package created at ${fakePackagePath}`,
+      `New package created at "${fakePackagePath}"`,
     );
   });
 
   it('Typed package', () => {
     expect(util.getSuccessMessage(fakePackagePath, 'content')).toEqual(
-      `New package of type content created at ${fakePackagePath}`,
+      `New package of type "content" created at "${fakePackagePath}"`,
     );
   });
 });
