@@ -98,3 +98,23 @@ describe('checkIfPackageAlreadyExists', () => {
     ).not.toThrow(Error);
   });
 });
+
+describe('checkIfFilesToParseFolderExist', () => {
+  it("Folder doesn't exists", () => {
+    expect(() =>
+      folder.checkIfFilesToParseFolderExists(
+        'fileToParse',
+        sampleFilesFolderLocation.valid.absolutePath,
+      ),
+    ).toThrow(Error);
+  });
+
+  it("Package doesn't exists", () => {
+    expect(() =>
+      folder.checkIfFilesToParseFolderExists(
+        'filesToParse',
+        sampleFilesFolderLocation.valid.absolutePath,
+      ),
+    ).not.toThrow(Error);
+  });
+});

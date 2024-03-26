@@ -31,14 +31,19 @@ export const createPackageFolder = (
  * Copy all sample files into the new package folder
  * @param {string} packageFolderLocation The location of the new package folder
  * @param {string} sampleFilesFolderLocation The location of the sample files folder
+ * @param {string} filesToParseFolder The files to parse folder name
  * @throws {Error} If there is an error while creating copying the files
  */
 export const addSampleFiles = (
   packageFolderLocation: string,
   sampleFilesFolderLocation: string,
+  filesToParseFolder?: string,
 ): void => {
   cpSync(sampleFilesFolderLocation, packageFolderLocation, {
     recursive: true,
+    filter: filesToParseFolder
+      ? (src: string) => !src.includes(filesToParseFolder)
+      : undefined,
   });
 };
 
@@ -77,6 +82,13 @@ export const generatePackage = async (generationOptions?: {
     destination: folder.getFolderLocation(newPackages.destinationFolderPath),
     sampleFiles: folder.getSampleFilesFolderLocation(sampleFiles.folderPath),
   };
+
+  if (sampleFiles.filesToParseFolder) {
+    folder.checkIfFilesToParseFolderExists(
+      sampleFiles.filesToParseFolder as string,
+      foldersAbsolutePath.sampleFiles,
+    );
+  }
 
   const arePackageTypesAreDefined = config.arePackageTypesAreDefined(
     sampleFiles.packageTypes,
@@ -134,6 +146,9 @@ export const generatePackage = async (generationOptions?: {
   addSampleFiles(
     createdPackageInformation.paths.destination,
     createdPackageInformation.paths.sampleFiles,
+    sampleFiles.filesToParseFolder && !arePackageTypesAreDefined
+      ? sampleFiles.filesToParseFolder
+      : undefined,
   );
 
   if (

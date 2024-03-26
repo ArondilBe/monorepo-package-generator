@@ -5,6 +5,7 @@ export type PackageCreationConfiguration = {
   };
   sampleFiles: {
     folderPath: string;
-    packageTypes: Record<string, string>;
+    filesToParseFolder?: string;
+    packageTypes?: Record<string, string>;
   };
 };
