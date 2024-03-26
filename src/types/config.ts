@@ -1,3 +1,7 @@
+export type PackageTypeInformation = {
+  folderName: string;
+};
+
 export type PackageCreationConfiguration = {
   newPackages: {
     destinationFolderPath: string;
@@ -6,6 +10,6 @@ export type PackageCreationConfiguration = {
   sampleFiles: {
     folderPath: string;
     filesToParseFolder?: string;
-    packageTypes?: Record<string, string>;
+    packageTypes?: Record<string, PackageTypeInformation>;
   };
 };

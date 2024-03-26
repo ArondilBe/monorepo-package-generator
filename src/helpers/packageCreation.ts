@@ -138,7 +138,7 @@ export const generatePackage = async (generationOptions?: {
   createdPackageInformation.paths.sampleFiles = createdPackageInformation.type
     ? folder.getFolderLocation(
         foldersAbsolutePath.sampleFiles,
-        sampleFiles.packageTypes?.[createdPackageInformation.type],
+        sampleFiles.packageTypes?.[createdPackageInformation.type].folderName,
       )
     : foldersAbsolutePath.sampleFiles;
 

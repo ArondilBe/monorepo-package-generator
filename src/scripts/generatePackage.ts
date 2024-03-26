@@ -10,8 +10,12 @@ const packageGenerationConfiguration: PackageCreationConfiguration = {
     folderPath: './sampleFilesExamples',
     filesToParseFolder: 'filesToParse',
     packageTypes: {
-      helper: 'helperPackage',
-      content: 'contentPackage',
+      helper: {
+        folderName: 'helperPackage',
+      },
+      content: {
+        folderName: 'contentPackage',
+      },
     },
   },
 };

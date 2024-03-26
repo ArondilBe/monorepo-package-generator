@@ -15,7 +15,9 @@ const packageCreationConfiguration: Record<
       folderPath: './fakeSampleFiles',
       filesToParseFolder: 'fakeFilesToParse',
       packageTypes: {
-        fake: 'fakePackage',
+        fake: {
+          folderName: 'fakePackage',
+        },
       },
     },
   },
@@ -28,8 +30,12 @@ const packageCreationConfiguration: Record<
       folderPath: './sampleFilesExamples',
       filesToParseFolder: 'filesToParse',
       packageTypes: {
-        helper: 'helperPackage',
-        content: 'contentPackage',
+        helper: {
+          folderName: 'helperPackage',
+        },
+        content: {
+          folderName: 'contentPackage',
+        },
       },
     },
   },
@@ -67,8 +73,8 @@ describe('checkIfPackageTypesAreDefined', () => {
   it('Package types defined', () => {
     expect(
       config.arePackageTypesAreDefined({
-        content: 'content',
-        typescript: 'tsPackage',
+        content: { folderName: 'content' },
+        typescript: { folderName: 'tsPackage' },
       }),
     ).toEqual(true);
   });

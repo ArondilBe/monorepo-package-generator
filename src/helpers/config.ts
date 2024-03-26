@@ -1,7 +1,10 @@
 import { existsSync } from 'fs';
 import { resolve } from 'path';
 
-import type { PackageCreationConfiguration } from '../types';
+import type {
+  PackageCreationConfiguration,
+  PackageTypeInformation,
+} from '../types';
 
 import * as util from './util';
 
@@ -28,9 +31,9 @@ export const getPackageCreationConfigurationFromFile = async (
 
 /**
  * Return if there is some package types defined or not
- * @param {Record<string,string>} packageTypes The list of package types (optional)
+ * @param {Record<string,PackageTypeInformation>} packageTypes The list of package types (optional)
  * @returns {boolean} If there is some package types defined or not
  */
 export const arePackageTypesAreDefined = (
-  packageTypes?: Record<string, string>,
+  packageTypes?: Record<string, PackageTypeInformation>,
 ): boolean => !!packageTypes && !!Object.keys(packageTypes).length;
