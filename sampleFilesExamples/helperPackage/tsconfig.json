@@ -7,7 +7,7 @@
     "strict": true,
     "strictNullChecks": true,
     "sourceRoot": "./src",
-    "outDir": "./esm",
+    "outDir": "./build",
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
@@ -15,5 +15,5 @@
     "esModuleInterop": true
   },
   "include": ["src"],
-  "exclude": ["node_modules", "esm"]
+  "exclude": ["node_modules", "build"]
 }
