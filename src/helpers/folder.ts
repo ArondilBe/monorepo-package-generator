@@ -88,3 +88,24 @@ export const checkIfPackageAlreadyExists = (
     });
   }
 };
+
+/**
+ * Check if a package with the given name already exists
+ * @param {string} folderName The name of the files to parse to generate
+ * @param {string} sampleFileFolderLocation The sample files folder path
+ * @throws {Error} If a package with the same name already exists
+ */
+export const checkIfFilesToParseFolderExists = (
+  folderName: string,
+  sampleFileFolderLocation: string,
+): void => {
+  const packageFolderCreationLocation = getFolderLocation(
+    sampleFileFolderLocation,
+    folderName,
+  );
+  if (!doesFolderExists(packageFolderCreationLocation)) {
+    util.throwPackageGenerationError('Files to parse folder', {
+      folder: folderName,
+    });
+  }
+};

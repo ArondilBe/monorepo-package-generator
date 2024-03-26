@@ -13,6 +13,7 @@ const packageCreationConfiguration: Record<
     },
     sampleFiles: {
       folderPath: './fakeSampleFiles',
+      filesToParseFolder: 'fakeFilesToParse',
       packageTypes: {
         fake: 'fakePackage',
       },
@@ -25,6 +26,7 @@ const packageCreationConfiguration: Record<
     },
     sampleFiles: {
       folderPath: './sampleFilesExamples',
+      filesToParseFolder: 'filesToParse',
       packageTypes: {
         helper: 'helperPackage',
         content: 'contentPackage',

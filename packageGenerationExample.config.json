@@ -5,6 +5,7 @@
   },
   "sampleFiles": {
     "folderPath": "./sampleFilesExamples",
+    "filesToParseFolder": "filesToParse",
     "packageTypes": {
       "helper": "helperPackage",
       "content": "contentPackage"
