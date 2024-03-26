@@ -1,6 +1,5 @@
-import { PackageCreationConfiguration } from 'types';
-
 import { packageCreation } from '../helpers';
+import { PackageCreationConfiguration } from '../types';
 
 const packageGenerationConfiguration: PackageCreationConfiguration = {
   newPackages: {
