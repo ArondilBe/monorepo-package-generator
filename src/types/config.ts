@@ -1,6 +1,10 @@
 export type PackageCreationConfiguration = {
-  destinationFolderRelativePath: string;
-  sampleFilesFolderRelativePath: string;
-  version: string;
-  packageTypes?: Record<string, string>;
+  newPackages: {
+    destinationFolderPath: string;
+    version: string;
+  };
+  sampleFiles: {
+    folderPath: string;
+    packageTypes: Record<string, string>;
+  };
 };
