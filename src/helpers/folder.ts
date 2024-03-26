@@ -95,10 +95,10 @@ export const checkIfPackageAlreadyExists = (
 };
 
 /**
- * Check if a package with the given name already exists
+ * Check if the given files to parse folder name exists
  * @param {string} folderName The name of the files to parse to generate
  * @param {string} sampleFileFolderLocation The sample files folder path
- * @throws {Error} If a package with the same name already exists
+ * @throws {Error} If the given files to parse folder name exists
  */
 export const checkIfFilesToParseFolderExists = (
   folderName: string,

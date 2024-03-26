@@ -7,7 +7,7 @@ export const PACKAGE_GENERATION_ERROR: PackageGenerationError = {
   'Package types': `The following package types doesn't exist: :packageTypes`,
   'Package type': `The given package type ":type" isn't defined in the configuration file`,
   'Sample file folder': `No sample files folder found at ":path"`,
-  'Files to parse folder': `No folder found with the name :folder`,
+  'Files to parse folder': `No folder found with the name ":folder"`,
 };
 
 export const SUCCESS_MESSAGES: Record<string, string> = {
