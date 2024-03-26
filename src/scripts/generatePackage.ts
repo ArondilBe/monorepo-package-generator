@@ -3,12 +3,16 @@ import { PackageCreationConfiguration } from 'types';
 import { packageCreation } from '../helpers';
 
 const packageGenerationConfiguration: PackageCreationConfiguration = {
-  destinationFolderRelativePath: './packages',
-  sampleFilesFolderRelativePath: './sampleFilesExamples',
-  version: '0.1.0',
-  packageTypes: {
-    helper: 'helperPackage',
-    content: 'contentPackage',
+  newPackages: {
+    destinationFolderPath: './packages',
+    version: '0.1.0',
+  },
+  sampleFiles: {
+    folderPath: './sampleFilesExamples',
+    packageTypes: {
+      helper: 'helperPackage',
+      content: 'contentPackage',
+    },
   },
 };
 

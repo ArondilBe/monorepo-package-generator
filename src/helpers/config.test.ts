@@ -7,21 +7,29 @@ const packageCreationConfiguration: Record<
   PackageCreationConfiguration
 > = {
   fromObject: {
-    destinationFolderRelativePath: '../fakeDestinationFolder',
-    sampleFilesFolderRelativePath: '../fakeSampleFilesFolder',
-    packageTypes: {
-      'fake type': 'fakeType',
+    newPackages: {
+      destinationFolderPath: './fakeDestination',
+      version: '0.2.0',
     },
-    version: '0.0.2',
+    sampleFiles: {
+      folderPath: './fakeSampleFiles',
+      packageTypes: {
+        fake: 'fakePackage',
+      },
+    },
   },
   fromFile: {
-    destinationFolderRelativePath: './packages',
-    sampleFilesFolderRelativePath: './sampleFilesExamples',
-    packageTypes: {
-      helper: 'helperPackage',
-      content: 'contentPackage',
+    newPackages: {
+      destinationFolderPath: './packages',
+      version: '0.1.0',
     },
-    version: '0.1.0',
+    sampleFiles: {
+      folderPath: './sampleFilesExamples',
+      packageTypes: {
+        helper: 'helperPackage',
+        content: 'contentPackage',
+      },
+    },
   },
 };
 

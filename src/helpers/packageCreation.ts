@@ -71,30 +71,26 @@ export const generatePackage = async (generationOptions?: {
         commandParameters.config,
       );
 
+  const { newPackages, sampleFiles } = packageCreationConfiguration;
+
   const foldersAbsolutePath: FoldersAbsolutePath = {
-    destination: folder.getFolderLocation(
-      packageCreationConfiguration.destinationFolderRelativePath,
-    ),
-    sampleFiles: folder.getSampleFilesFolderLocation(
-      packageCreationConfiguration.sampleFilesFolderRelativePath,
-    ),
+    destination: folder.getFolderLocation(newPackages.destinationFolderPath),
+    sampleFiles: folder.getSampleFilesFolderLocation(sampleFiles.folderPath),
   };
 
   const arePackageTypesAreDefined = config.arePackageTypesAreDefined(
-    packageCreationConfiguration.packageTypes,
+    sampleFiles.packageTypes,
   );
 
   if (arePackageTypesAreDefined) {
     folder.checkPackageTypesSubFolderDefinition(
-      packageCreationConfiguration.packageTypes!,
+      sampleFiles.packageTypes!,
       foldersAbsolutePath.sampleFiles,
     );
 
     if (
       createdPackageInformation.type &&
-      !packageCreationConfiguration.packageTypes?.[
-        createdPackageInformation.type
-      ]
+      !sampleFiles.packageTypes?.[createdPackageInformation.type]
     ) {
       util.throwPackageGenerationError('Package type', {
         type: createdPackageInformation.type,
@@ -122,7 +118,7 @@ export const generatePackage = async (generationOptions?: {
       createdPackageInformation.type =
         commandParameters.type ||
         (await commandLine.askPackageType(
-          Object.keys(packageCreationConfiguration.packageTypes!),
+          Object.keys(sampleFiles.packageTypes!),
         ));
     }
   }
@@ -130,9 +126,7 @@ export const generatePackage = async (generationOptions?: {
   createdPackageInformation.paths.sampleFiles = createdPackageInformation.type
     ? folder.getFolderLocation(
         foldersAbsolutePath.sampleFiles,
-        packageCreationConfiguration.packageTypes?.[
-          createdPackageInformation.type
-        ],
+        sampleFiles.packageTypes?.[createdPackageInformation.type],
       )
     : foldersAbsolutePath.sampleFiles;
 
@@ -148,7 +142,7 @@ export const generatePackage = async (generationOptions?: {
     await file.modifyPackageJsonInformation(
       createdPackageInformation.paths.destination,
       createdPackageInformation.name,
-      packageCreationConfiguration.version,
+      newPackages.version,
     );
   }
 
