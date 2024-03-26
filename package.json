@@ -1,11 +1,12 @@
 {
   "name": "@arondilbe/monorepo-package-generator",
   "version": "1.0.0",
-  "description": "The package 'package-generator' goal is to provide an easy to use tool to generate packages for monorepo. The generated packages are based on sample files and folders.",
+  "description": "The package 'monorepo-package-generator' goal is to provide an easy to use tool to generate packages for monorepo. The generated packages are based on sample files and folders.",
   "keywords": [
     "package",
     "generator",
-    "generation"
+    "generation",
+    "monorepo"
   ],
   "homepage": "https://github.com/arondilbe/monorepo-package-generator#readme",
   "bugs": {
@@ -30,7 +31,7 @@
     "test": "jest",
     "commit": "cz",
     "package:generate:bin": "node ./bin/generatePackage.js --config ./packageGenerationExample.config.json",
-    "package:generate:script": "node ./build/scripts/generatePackage.js --config ./packageGenerationExample.config.json"
+    "package:generate:script": "node ./build/scripts/generatePackage.js"
   },
   "dependencies": {
     "@arondilbe/string-parameters-parser": "^1.0.1",
