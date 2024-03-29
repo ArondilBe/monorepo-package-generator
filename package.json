@@ -19,20 +19,23 @@
     "type": "git",
     "url": "https://github.com/arondilbe/monorepo-package-generator"
   },
-  "main": "./build/index.js",
+  "exports": "./build/index.js",
   "type": "module",
   "packageManager": "yarn@4.1.1",
   "scripts": {
     "build": "tsc -b tsconfig.json",
-    "build:clean": "rm -rf ./build/",
+    "build:clean": "rm -rf ./esm/",
     "test": "jest",
-    "commit": "cz"
+    "commit": "cz",
+    "fake": "node ./esm/index.js"
+  },
+  "dependencies": {
+    "@arondilbe/string-parameters-parser": "^1.0.2",
+    "chalk": "^4.1.2"
   },
   "devDependencies": {
-    "@types/inquirer": "^9.0.7",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.11.30",
-    "@types/yargs": "^17.0.32",
     "@typescript-eslint/eslint-plugin": "^7.4.0",
     "@typescript-eslint/parser": "^7.4.0",
     "commitizen": "^4.3.0",

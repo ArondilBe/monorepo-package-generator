@@ -14,7 +14,10 @@
     "resolveJsonModule": true,
     "incremental": true,
     "esModuleInterop": true,
-    "baseUrl": "src/"
+    "baseUrl": "src/",
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true,
+    "types": ["jest"]
   },
   "include": ["src", "bin"],
   "exclude": ["node_modules", "esm"]
