@@ -1,5 +1,7 @@
 import { join } from 'path';
 
+import { PackageTypeInformation } from '../types';
+
 import * as folder from './folder';
 
 const sampleFilesFolderLocation = {
@@ -12,16 +14,26 @@ const sampleFilesFolderLocation = {
   },
 };
 
-const packagesTypes: Record<string, Record<string, string>> = {
+const packagesTypes: Record<string, Record<string, PackageTypeInformation>> = {
   valid: {
-    helper: 'helperPackage',
-    content: 'contentPackage',
+    helper: {
+      folderName: 'helperPackage',
+    },
+    content: {
+      folderName: 'contentPackage',
+    },
   },
   invalid: {
-    helper: 'helperPackage',
-    content: 'contentPackage',
-    ts: 'typescriptPackage',
-    js: 'javascriptcriptPackage',
+    helper: {
+      folderName: 'helperPackage',
+    },
+    content: {
+      folderName: 'contentPackage',
+    },
+    ts: {
+      folderName: 'typescriptPackage',
+    },
+    js: { folderName: 'javascriptcriptPackage' },
   },
 };
 
@@ -95,6 +107,26 @@ describe('checkIfPackageAlreadyExists', () => {
   it("Package doesn't exists", () => {
     expect(() =>
       folder.checkIfPackageAlreadyExists('source', process.cwd()),
+    ).not.toThrow(Error);
+  });
+});
+
+describe('checkIfFilesToParseFolderExist', () => {
+  it("Folder doesn't exists", () => {
+    expect(() =>
+      folder.checkIfFilesToParseFolderExists(
+        'fileToParse',
+        sampleFilesFolderLocation.valid.absolutePath,
+      ),
+    ).toThrow(Error);
+  });
+
+  it("Package doesn't exists", () => {
+    expect(() =>
+      folder.checkIfFilesToParseFolderExists(
+        'filesToParse',
+        sampleFilesFolderLocation.valid.absolutePath,
+      ),
     ).not.toThrow(Error);
   });
 });

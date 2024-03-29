@@ -1,6 +1,8 @@
 import { existsSync } from 'fs';
 import { join, resolve } from 'path';
 
+import { PackageTypeInformation } from '../types';
+
 import * as util from './util';
 
 /**
@@ -41,19 +43,22 @@ export const getSampleFilesFolderLocation = (relativePath: string): string => {
 
 /**
  * Check if all package types defined in the configuration have linked sub folders in the sample files folder
- * @param {Record<string, string>} packageTypes The list of package types
+ * @param {Record<string, PackageTypeInformation>} packageTypes The list of package types
  * @param {string} sampleFileFolderLocation The sample file folder absolute path
  * @throws {Error} If there is at least one undefined package types
  */
 export const checkPackageTypesSubFolderDefinition = (
-  packageTypes: Record<string, string>,
+  packageTypes: Record<string, PackageTypeInformation>,
   sampleFileFolderLocation: string,
 ): void => {
   let undefinedPackageTypes: string = '';
   for (const packageType in packageTypes) {
     if (
       !doesFolderExists(
-        getFolderLocation(sampleFileFolderLocation, packageTypes[packageType]),
+        getFolderLocation(
+          sampleFileFolderLocation,
+          packageTypes[packageType].folderName,
+        ),
       )
     ) {
       undefinedPackageTypes = undefinedPackageTypes.concat(`\n${packageType}`);
@@ -85,6 +90,27 @@ export const checkIfPackageAlreadyExists = (
     util.throwPackageGenerationError('Package already exists', {
       package: packageName,
       path: packageFolderCreationLocation,
+    });
+  }
+};
+
+/**
+ * Check if the given files to parse folder name exists
+ * @param {string} folderName The name of the files to parse to generate
+ * @param {string} sampleFileFolderLocation The sample files folder path
+ * @throws {Error} If the given files to parse folder name exists
+ */
+export const checkIfFilesToParseFolderExists = (
+  folderName: string,
+  sampleFileFolderLocation: string,
+): void => {
+  const packageFolderCreationLocation = getFolderLocation(
+    sampleFileFolderLocation,
+    folderName,
+  );
+  if (!doesFolderExists(packageFolderCreationLocation)) {
+    util.throwPackageGenerationError('Files to parse folder', {
+      folder: folderName,
     });
   }
 };

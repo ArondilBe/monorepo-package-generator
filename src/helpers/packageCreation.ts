@@ -6,6 +6,7 @@ import type {
   CreatedPackageInformation,
   FoldersAbsolutePath,
   PackageCreationConfiguration,
+  PackageInformation,
 } from '../types';
 
 import * as commandLine from './commandLine';
@@ -30,25 +31,44 @@ export const createPackageFolder = (
  * Copy all sample files into the new package folder
  * @param {string} packageFolderLocation The location of the new package folder
  * @param {string} sampleFilesFolderLocation The location of the sample files folder
+ * @param {string} filesToParseFolder The files to parse folder name
  * @throws {Error} If there is an error while creating copying the files
  */
 export const addSampleFiles = (
   packageFolderLocation: string,
   sampleFilesFolderLocation: string,
+  filesToParseFolder?: string,
 ): void => {
   cpSync(sampleFilesFolderLocation, packageFolderLocation, {
     recursive: true,
+    filter: filesToParseFolder
+      ? (src: string) => !src.includes(filesToParseFolder)
+      : undefined,
   });
 };
 
 /**
  * Main function to generate a package
- * @param {PackageCreationConfiguration} packageGenerationConfiguration The configuration object (optional)
+ * @param {Object=} generationOptions The optional options of the package generation
+ * @param {PackageCreationConfiguration} generationOptions.packageGenerationConfiguration The configuration object (optional)
+ * @param {Partial<PackageInformation>} generationOptions.packageInformation The package to create's information (name and type) (optional)
  */
-export const generatePackage = async (
-  packageGenerationConfiguration?: PackageCreationConfiguration,
-): Promise<void> => {
+export const generatePackage = async (generationOptions?: {
+  packageGenerationConfiguration?: PackageCreationConfiguration;
+  packageInformation?: Partial<PackageInformation>;
+}): Promise<void> => {
+  const { packageGenerationConfiguration, packageInformation } =
+    generationOptions || {};
+
+  const createdPackageInformation: Partial<CreatedPackageInformation> = {};
+
   const commandParameters = await commandLine.getCommandOptions();
+
+  if (packageInformation) {
+    createdPackageInformation.name = packageInformation.name;
+    createdPackageInformation.type =
+      packageInformation.type || commandParameters.type;
+  }
 
   const packageCreationConfiguration = packageGenerationConfiguration
     ? packageGenerationConfiguration
@@ -56,39 +76,45 @@ export const generatePackage = async (
         commandParameters.config,
       );
 
+  const { newPackages, sampleFiles } = packageCreationConfiguration;
+
   const foldersAbsolutePath: FoldersAbsolutePath = {
-    destination: folder.getFolderLocation(
-      packageCreationConfiguration.destinationFolderRelativePath,
-    ),
-    sampleFiles: folder.getSampleFilesFolderLocation(
-      packageCreationConfiguration.sampleFilesFolderRelativePath,
-    ),
+    destination: folder.getFolderLocation(newPackages.destinationFolderPath),
+    sampleFiles: folder.getSampleFilesFolderLocation(sampleFiles.folderPath),
   };
 
+  if (sampleFiles.filesToParseFolder) {
+    folder.checkIfFilesToParseFolderExists(
+      sampleFiles.filesToParseFolder as string,
+      foldersAbsolutePath.sampleFiles,
+    );
+  }
+
   const arePackageTypesAreDefined = config.arePackageTypesAreDefined(
-    packageCreationConfiguration.packageTypes,
+    sampleFiles.packageTypes,
   );
 
   if (arePackageTypesAreDefined) {
     folder.checkPackageTypesSubFolderDefinition(
-      packageCreationConfiguration.packageTypes!,
+      sampleFiles.packageTypes!,
       foldersAbsolutePath.sampleFiles,
     );
 
     if (
-      commandParameters.type &&
-      !packageCreationConfiguration.packageTypes?.[commandParameters.type]
+      createdPackageInformation.type &&
+      !sampleFiles.packageTypes?.[createdPackageInformation.type]
     ) {
       util.throwPackageGenerationError('Package type', {
-        type: commandParameters.type,
+        type: createdPackageInformation.type,
       });
     }
   }
 
-  const createdPackageInformation: Partial<CreatedPackageInformation> = {};
+  if (!createdPackageInformation.name) {
+    createdPackageInformation.name =
+      commandParameters.name || (await commandLine.askPackageName());
+  }
 
-  createdPackageInformation.name =
-    commandParameters.name || (await commandLine.askPackageName());
   createdPackageInformation.paths = {};
   createdPackageInformation.paths.destination = folder.getFolderLocation(
     foldersAbsolutePath.destination,
@@ -100,19 +126,19 @@ export const generatePackage = async (
   );
 
   if (arePackageTypesAreDefined) {
-    createdPackageInformation.type =
-      commandParameters.type ||
-      (await commandLine.askPackageType(
-        Object.keys(packageCreationConfiguration.packageTypes!),
-      ));
+    if (!createdPackageInformation.type) {
+      createdPackageInformation.type =
+        commandParameters.type ||
+        (await commandLine.askPackageType(
+          Object.keys(sampleFiles.packageTypes!),
+        ));
+    }
   }
 
   createdPackageInformation.paths.sampleFiles = createdPackageInformation.type
     ? folder.getFolderLocation(
         foldersAbsolutePath.sampleFiles,
-        packageCreationConfiguration.packageTypes?.[
-          createdPackageInformation.type
-        ],
+        sampleFiles.packageTypes?.[createdPackageInformation.type].folderName,
       )
     : foldersAbsolutePath.sampleFiles;
 
@@ -120,6 +146,9 @@ export const generatePackage = async (
   addSampleFiles(
     createdPackageInformation.paths.destination,
     createdPackageInformation.paths.sampleFiles,
+    sampleFiles.filesToParseFolder && !arePackageTypesAreDefined
+      ? sampleFiles.filesToParseFolder
+      : undefined,
   );
 
   if (
@@ -128,7 +157,7 @@ export const generatePackage = async (
     await file.modifyPackageJsonInformation(
       createdPackageInformation.paths.destination,
       createdPackageInformation.name,
-      packageCreationConfiguration.version,
+      newPackages.version,
     );
   }
 
