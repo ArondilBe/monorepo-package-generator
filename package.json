@@ -22,30 +22,19 @@
   "main": "./build/index.js",
   "type": "commonjs",
   "packageManager": "yarn@4.1.1",
-  "bin": {
-    "generatePackage": "./bin/generatePackage.js"
-  },
   "scripts": {
     "build": "tsc -b tsconfig.json",
     "clean:build": "rm -rf ./build/",
     "test": "jest",
-    "commit": "cz",
-    "package:generate:bin": "node ./bin/generatePackage.js --config ./packageGenerationExample.config.json",
-    "package:generate:script": "node ./build/scripts/generatePackage.js"
-  },
-  "dependencies": {
-    "@arondilbe/string-parameters-parser": "^1.0.1",
-    "chalk": "^4.1.2",
-    "inquirer": "^8.2.6",
-    "yargs": "^17.7.2"
+    "commit": "cz"
   },
   "devDependencies": {
     "@types/inquirer": "^9.0.7",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.11.30",
     "@types/yargs": "^17.0.32",
-    "@typescript-eslint/eslint-plugin": "^7.3.1",
-    "@typescript-eslint/parser": "^7.3.1",
+    "@typescript-eslint/eslint-plugin": "^7.4.0",
+    "@typescript-eslint/parser": "^7.4.0",
     "commitizen": "^4.3.0",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.57.0",
@@ -55,8 +44,8 @@
     "jest": "^29.7.0",
     "prettier": "^3.2.5",
     "ts-jest": "^29.1.2",
-    "typescript": "^5.4.2",
-    "typescript-eslint": "^7.3.1"
+    "typescript": "^5.4.3",
+    "typescript-eslint": "^7.4.0"
   },
   "config": {
     "commitizen": {
