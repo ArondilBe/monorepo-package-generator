@@ -17,7 +17,7 @@
     "baseUrl": "src/",
     "skipDefaultLibCheck": true,
     "skipLibCheck": true,
-    "types": ["jest"]
+    "types": ["jest", "node", "yargs"]
   },
   "include": ["src", "bin"],
   "exclude": ["node_modules", "esm"]
