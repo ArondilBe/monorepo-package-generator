@@ -13,4 +13,5 @@ module.exports = {
   },
   testEnvironment: 'node',
   testPathIgnorePatterns: ['node_modules', 'esm'],
+  maxWorkers: '50%',
 };
