@@ -147,16 +147,16 @@ describe('getFormattedMessage', () => {
   });
 });
 
-// TODO: Adapt unit tests with the real error messages
 describe('throwError', () => {
   it('Throw error message', () => {
     expect(() =>
-      throwError('Package creation', { error: 'creation error' }),
+      throwError('Configuration file', { path: './package.json' }),
     ).toThrow(Error);
   });
-  it('Throw error message', () => {
+
+  it('Configuration file', () => {
     expect(() =>
-      throwError('Package creation', { error: 'creation error' }),
-    ).toThrow('The following error happened: creation error');
+      throwError('Configuration file', { path: './package.lock.json' }),
+    ).toThrow('No configuration file found at: "./package.lock.json"');
   });
 });

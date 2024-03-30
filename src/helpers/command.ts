@@ -19,11 +19,11 @@ export const executeGenerationPackageCommand = (): void => {
         displayMessage('error', error.stack || error.message, {
           shouldDisplayMessageType: true,
         });
+      } else {
+        displayMessage('error', message, {
+          shouldDisplayMessageType: true,
+        });
       }
-      displayMessage('error', message, {
-        shouldDisplayMessageType: true,
-      });
-
       // eslint-disable-next-line no-console
       console.log(yargs.help());
       process.exit(1);
