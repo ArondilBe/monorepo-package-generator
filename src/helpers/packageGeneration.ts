@@ -58,6 +58,8 @@ export const generatePackage = (options: {
   packageVersion?: string;
   verbose?: boolean;
 }): void => {
+  // Configuration
+
   const packageGenerationInformation = getPackageGenerationInformation(options);
 
   const { configurationFilePath, name, isVerbose } =
@@ -65,16 +67,28 @@ export const generatePackage = (options: {
 
   const packageGenerationConfiguration =
     getPackageGenerationConfigurationFromFile(configurationFilePath);
-  const packageCreationPath = resolve(
-    join(packageGenerationConfiguration.destinationFolderPath, name),
-  );
+
+  // Checking content
+
+  const { destinationFolderPath, sampleFilesFolderPath } =
+    packageGenerationConfiguration;
+
+  const packageCreationPath = resolve(join(destinationFolderPath, name));
+
+  const sampleFilesPath = resolve(sampleFilesFolderPath);
 
   if (doesFileOrFolderExist(packageCreationPath)) {
     throwError('Package already exists', {
       name: name,
-      path: packageGenerationConfiguration.destinationFolderPath,
+      path: destinationFolderPath,
     });
   }
+
+  if (!doesFileOrFolderExist(sampleFilesPath)) {
+    throwError('Sample files folder', { path: sampleFilesPath });
+  }
+
+  // Package Generation
 
   createPackageFolder(packageCreationPath);
 

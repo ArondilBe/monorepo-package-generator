@@ -4,6 +4,7 @@ import { getPackageGenerationConfigurationFromFile } from './config.js';
 
 const packageGenerationConfiguration: PackageGenerationConfiguration = {
   destinationFolderPath: './packages',
+  sampleFilesFolderPath: './sampleFilesExample',
 };
 
 describe('getPackageGenerationConfigurationFromFile', () => {

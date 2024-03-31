@@ -159,4 +159,16 @@ describe('throwError', () => {
       throwError('Configuration file', { path: './package.lock.json' }),
     ).toThrow('No configuration file found at: "./package.lock.json"');
   });
+
+  it('Package already exists', () => {
+    expect(() =>
+      throwError('Package already exists', { path: './packages/newPackage' }),
+    ).toThrow('The package ":name" already exists at "./packages/newPackage"');
+  });
+
+  it('Package already exists', () => {
+    expect(() =>
+      throwError('Sample files folder', { path: './sampleFiles' }),
+    ).toThrow('No sample files folder found at "./sampleFiles"');
+  });
 });
