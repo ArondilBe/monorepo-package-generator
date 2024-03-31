@@ -23,6 +23,7 @@ export const getPackageGenerationConfigurationFromFile = (
   }
   let configFile: PackageGenerationConfiguration = {
     destinationFolderPath: '',
+    sampleFilesFolderPath: '',
   };
   try {
     configFile = JSON.parse(
