@@ -1,11 +1,16 @@
 import { mkdirSync } from 'fs';
 import { join, resolve } from 'path';
 
-import { SUCCESS_MESSAGE } from '../configurations/util.js';
+import { SUCCESS_MESSAGE, WARNING_MESSAGE } from '../configurations/util.js';
 import { PackageGenerationInformation } from '../types/packageGeneration.js';
 
 import { getPackageGenerationConfigurationFromFile } from './config.js';
 import { doesFileOrFolderExist } from './file.js';
+import {
+  getListOfNonExistingPackageTypes,
+  getNonExistingPackageTypeFolders,
+  isPackageTypeDefined,
+} from './packageType.js';
 import { displayMessage, throwError } from './util.js';
 
 /**
@@ -62,7 +67,7 @@ export const generatePackage = (options: {
 
   const packageGenerationInformation = getPackageGenerationInformation(options);
 
-  const { configurationFilePath, name, isVerbose } =
+  const { configurationFilePath, name, isVerbose, type } =
     packageGenerationInformation;
 
   const packageGenerationConfiguration =
@@ -70,7 +75,7 @@ export const generatePackage = (options: {
 
   // Checking content
 
-  const { destinationFolderPath, sampleFilesFolderPath } =
+  const { destinationFolderPath, sampleFilesFolderPath, packageTypes } =
     packageGenerationConfiguration;
 
   const packageCreationPath = resolve(join(destinationFolderPath, name));
@@ -88,9 +93,37 @@ export const generatePackage = (options: {
     throwError('Sample files folder', { path: sampleFilesPath });
   }
 
+  if (packageTypes) {
+    const nonExistingPackageTypes = getNonExistingPackageTypeFolders(
+      sampleFilesPath,
+      packageTypes,
+    );
+
+    if (nonExistingPackageTypes.length) {
+      throwError('Package types folder', {
+        types: getListOfNonExistingPackageTypes(nonExistingPackageTypes),
+      });
+    }
+  } else {
+    if (type) {
+      displayMessage('warning', WARNING_MESSAGE['Package type'], {
+        shouldDisplayMessageType: true,
+        isVerbose,
+      });
+    }
+  }
+
+  if (type && packageTypes) {
+    if (!isPackageTypeDefined(type, Object.keys(packageTypes))) {
+      throwError('Package type', { type });
+    }
+  }
+
   // Package Generation
 
-  createPackageFolder(packageCreationPath);
+  {
+    createPackageFolder(packageCreationPath);
+  }
 
   displayMessage('success', SUCCESS_MESSAGE, {
     parameters: { path: packageCreationPath },

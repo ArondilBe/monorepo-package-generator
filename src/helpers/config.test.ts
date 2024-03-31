@@ -5,6 +5,10 @@ import { getPackageGenerationConfigurationFromFile } from './config.js';
 const packageGenerationConfiguration: PackageGenerationConfiguration = {
   destinationFolderPath: './packages',
   sampleFilesFolderPath: './sampleFilesExample',
+  packageTypes: {
+    content: 'content',
+    util: 'util',
+  },
 };
 
 describe('getPackageGenerationConfigurationFromFile', () => {

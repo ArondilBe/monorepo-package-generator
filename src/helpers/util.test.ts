@@ -171,4 +171,22 @@ describe('throwError', () => {
       throwError('Sample files folder', { path: './sampleFiles' }),
     ).toThrow('No sample files folder found at "./sampleFiles"');
   });
+
+  it('Package types folder', () => {
+    expect(() =>
+      throwError('Package types folder', {
+        types: '- content',
+      }),
+    ).toThrow('The following package type folders were not found: - content');
+  });
+
+  it('Package type folder', () => {
+    expect(() =>
+      throwError('Package type', {
+        type: 'fake',
+      }),
+    ).toThrow(
+      'The given package type "fake" is not defined in the configuration file',
+    );
+  });
 });
