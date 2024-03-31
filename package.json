@@ -27,7 +27,7 @@
     "build:clean": "rm -rf ./esm/",
     "test": "jest",
     "commit": "cz",
-    "package:generate": "node ./esm/index.js generate-package"
+    "package:generate": "node ./esm/index.js generate-package --config ./packageGenerationExample.config.json"
   },
   "dependencies": {
     "@arondilbe/string-parameters-parser": "^1.0.2",

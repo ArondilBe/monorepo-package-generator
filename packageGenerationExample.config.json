@@ -1,4 +1,8 @@
 {
   "destinationFolderPath": "./packages",
-  "sampleFilesFolderPath": "./sampleFilesExample"
+  "sampleFilesFolderPath": "./sampleFilesExample",
+  "packageTypes": {
+    "content": "content",
+    "util": "util"
+  }
 }
