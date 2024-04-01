@@ -104,13 +104,11 @@ export const generatePackage = (options: {
         types: getListOfNonExistingPackageTypes(nonExistingPackageTypes),
       });
     }
-  } else {
-    if (type) {
-      displayMessage('warning', WARNING_MESSAGE['Package type'], {
-        shouldDisplayMessageType: true,
-        isVerbose,
-      });
-    }
+  } else if (type) {
+    displayMessage('warning', WARNING_MESSAGE['Package type'], {
+      shouldDisplayMessageType: true,
+      isVerbose,
+    });
   }
 
   if (type && packageTypes) {
@@ -121,9 +119,7 @@ export const generatePackage = (options: {
 
   // Package Generation
 
-  {
-    createPackageFolder(packageCreationPath);
-  }
+  createPackageFolder(packageCreationPath);
 
   displayMessage('success', SUCCESS_MESSAGE, {
     parameters: { path: packageCreationPath },

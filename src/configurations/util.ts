@@ -26,7 +26,7 @@ export const ERROR_MESSAGE: Record<ErrorType, string> = {
 
 export const WARNING_MESSAGE: Record<WarningType, string> = {
   'Package type':
-    'A type has been given for the package but no package types are defined in the configuration file',
+    'A type has been given for the package but no package types are defined in the configuration file. The new package will contain all files',
 };
 
 export const SUCCESS_MESSAGE = 'Package created at ":path"';
