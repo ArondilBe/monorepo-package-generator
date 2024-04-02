@@ -9,4 +9,10 @@ export type ErrorType =
   | 'Package types folder'
   | 'Package type';
 
+export type InformationType =
+  | 'Folder created'
+  | 'Common files copied'
+  | 'Specific files copied'
+  | 'Package.json modified';
+
 export type WarningType = 'Package type';

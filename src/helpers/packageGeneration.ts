@@ -1,11 +1,16 @@
 import { mkdirSync } from 'fs';
 import { join, resolve } from 'path';
 
-import { SUCCESS_MESSAGE, WARNING_MESSAGE } from '../configurations/util.js';
+import { PACKAGE_JSON_FILE_NAME } from '../configurations/file.js';
+import {
+  INFORMATION_MESSAGE,
+  SUCCESS_MESSAGE,
+  WARNING_MESSAGE,
+} from '../configurations/util.js';
 import { PackageGenerationInformation } from '../types/packageGeneration.js';
 
 import { getPackageGenerationConfigurationFromFile } from './config.js';
-import { copyFiles, doesFileOrFolderExist } from './file.js';
+import { copyFiles, doesFileOrFolderExist, modifyPackageJson } from './file.js';
 import {
   getListOfNonExistingPackageTypes,
   getNonExistingPackageTypeFolders,
@@ -67,7 +72,7 @@ export const generatePackage = (options: {
 
   const packageGenerationInformation = getPackageGenerationInformation(options);
 
-  const { configurationFilePath, name, isVerbose, type } =
+  const { configurationFilePath, name, isVerbose, type, version } =
     packageGenerationInformation;
 
   const packageGenerationConfiguration =
@@ -117,9 +122,15 @@ export const generatePackage = (options: {
     }
   }
 
-  // Package Generation
+  // Package generation
 
   createPackageFolder(packageCreationPath);
+
+  displayMessage('information', INFORMATION_MESSAGE['Folder created'], {
+    parameters: { path: packageCreationPath },
+    shouldDisplayMessageType: true,
+    isVerbose,
+  });
 
   copyFiles(
     packageCreationPath,
@@ -127,10 +138,42 @@ export const generatePackage = (options: {
     packageTypes ? Object.values(packageTypes) : undefined,
   );
 
+  displayMessage('information', INFORMATION_MESSAGE['Common files copied'], {
+    shouldDisplayMessageType: true,
+    isVerbose,
+  });
+
   if (type) {
     copyFiles(
       packageCreationPath,
       join(sampleFilesFolderPath, packageTypes?.[type] as string),
+    );
+
+    displayMessage(
+      'information',
+      INFORMATION_MESSAGE['Specific files copied'],
+      {
+        parameters: { type },
+        shouldDisplayMessageType: true,
+        isVerbose,
+      },
+    );
+  }
+
+  if (join(packageCreationPath, PACKAGE_JSON_FILE_NAME)) {
+    modifyPackageJson(
+      join(packageCreationPath, PACKAGE_JSON_FILE_NAME),
+      name,
+      version,
+    );
+
+    displayMessage(
+      'information',
+      INFORMATION_MESSAGE['Package.json modified'],
+      {
+        shouldDisplayMessageType: true,
+        isVerbose,
+      },
     );
   }
 
