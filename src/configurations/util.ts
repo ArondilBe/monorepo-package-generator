@@ -1,9 +1,12 @@
 import type {
   ErrorType,
+  InformationType,
   MessageColor,
   MessageType,
   WarningType,
 } from '../types/util.js';
+
+import { PACKAGE_JSON_FILE_NAME } from './file.js';
 
 export const PARAMETER_SYMBOL = ':';
 
@@ -29,4 +32,11 @@ export const WARNING_MESSAGE: Record<WarningType, string> = {
     'A type has been given for the package but no package types are defined in the configuration file. The new package will contain all files',
 };
 
-export const SUCCESS_MESSAGE = 'Package created at ":path"';
+export const INFORMATION_MESSAGE: Record<InformationType, string> = {
+  'Folder created': 'New package folder created at ":path"',
+  'Common files copied': 'All common files copied',
+  'Specific files copied': 'Specific files for package type ":type" copied',
+  'Package.json modified': `File ${PACKAGE_JSON_FILE_NAME} modified`,
+};
+
+export const SUCCESS_MESSAGE = 'Package successfully created at ":path"';
