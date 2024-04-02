@@ -5,7 +5,7 @@ import { SUCCESS_MESSAGE, WARNING_MESSAGE } from '../configurations/util.js';
 import { PackageGenerationInformation } from '../types/packageGeneration.js';
 
 import { getPackageGenerationConfigurationFromFile } from './config.js';
-import { copyCommonFiles, doesFileOrFolderExist } from './file.js';
+import { copyFiles, doesFileOrFolderExist } from './file.js';
 import {
   getListOfNonExistingPackageTypes,
   getNonExistingPackageTypeFolders,
@@ -121,11 +121,18 @@ export const generatePackage = (options: {
 
   createPackageFolder(packageCreationPath);
 
-  copyCommonFiles(
+  copyFiles(
     packageCreationPath,
     sampleFilesPath,
     packageTypes ? Object.values(packageTypes) : undefined,
   );
+
+  if (type) {
+    copyFiles(
+      packageCreationPath,
+      join(sampleFilesFolderPath, packageTypes?.[type] as string),
+    );
+  }
 
   displayMessage('success', SUCCESS_MESSAGE, {
     parameters: { path: packageCreationPath },
