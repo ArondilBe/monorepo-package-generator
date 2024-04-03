@@ -22,12 +22,15 @@
   "exports": "./build/index.js",
   "type": "module",
   "packageManager": "yarn@4.1.1",
+  "bin": {
+    "generatePackage": "./bin/generatePackage.js"
+  },
   "scripts": {
     "build": "tsc -b tsconfig.json",
     "build:clean": "rm -rf ./esm/",
     "test": "jest",
     "commit": "cz",
-    "package:generate": "node ./esm/index.js generate-package --config ./packageGenerationExample.config.json"
+    "package:generate": "node ./bin/generatePackage.js generate-package --config ./packageGenerationExample.config.json"
   },
   "dependencies": {
     "@arondilbe/string-parameters-parser": "^1.0.2",

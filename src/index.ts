@@ -1,3 +1,5 @@
-import { executeGenerationPackageCommand } from './helpers/command.js';
+export { GeneratePackageOptions } from './types/command.js';
 
-executeGenerationPackageCommand();
+import { generatePackage } from './helpers/packageGeneration.js';
+
+export default generatePackage;
