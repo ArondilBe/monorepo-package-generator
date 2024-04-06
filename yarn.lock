@@ -32,7 +32,7 @@ __metadata:
     "@types/yargs": "npm:^17.0.32"
     "@typescript-eslint/eslint-plugin": "npm:^7.4.0"
     "@typescript-eslint/parser": "npm:^7.4.0"
-    chalk: "npm:^4.1.2"
+    chalk: "npm:^5.3.0"
     commitizen: "npm:^4.3.0"
     cz-conventional-changelog: "npm:^3.3.0"
     eslint: "npm:^8.57.0"
@@ -45,6 +45,8 @@ __metadata:
     typescript: "npm:^5.4.3"
     typescript-eslint: "npm:^7.4.0"
     yargs: "npm:^17.7.2"
+  bin:
+    generatePackage: ./bin/generatePackage.js
   languageName: unknown
   linkType: soft
 
