@@ -30,7 +30,8 @@
     "build:clean": "rm -rf ./esm/",
     "test": "node --no-warnings --experimental-vm-modules node_modules/jest/bin/jest.js",
     "commit": "cz",
-    "package:generate": "node ./bin/generatePackage.js generate-package --config ./packageGenerationExample.config.json"
+    "package:generate": "node ./bin/generatePackage.js generate-package --config ./packageGenerationExample.config.json",
+    "release:create": "npm version minor && changelog"
   },
   "dependencies": {
     "@arondilbe/string-parameters-parser": "^1.0.2",
@@ -49,6 +50,7 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-import-resolver-typescript": "^3.6.1",
     "eslint-plugin-import": "^2.29.1",
+    "generate-changelog": "^1.8.0",
     "jest": "^29.7.0",
     "prettier": "^3.2.5",
     "ts-jest": "^29.1.2",
