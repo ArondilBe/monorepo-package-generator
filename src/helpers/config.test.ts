@@ -5,6 +5,7 @@ import { getPackageGenerationConfigurationFromFile } from './config.js';
 const packageGenerationConfiguration: PackageGenerationConfiguration = {
   destinationFolderPath: './packages',
   sampleFilesFolderPath: './sampleFilesExample',
+  libraryName: '@arondilbe',
   packageTypes: {
     content: 'content',
     util: 'util',
