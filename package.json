@@ -31,7 +31,8 @@
     "test": "node --no-warnings --experimental-vm-modules node_modules/jest/bin/jest.js",
     "commit": "cz",
     "package:generate": "node ./bin/generatePackage.js generate-package --config ./packageGenerationExample.config.json",
-    "release:create": "npm version minor && changelog"
+    "release:create": "npm version minor && changelog",
+    "publish": "npm publish"
   },
   "dependencies": {
     "@arondilbe/string-parameters-parser": "^1.0.2",
