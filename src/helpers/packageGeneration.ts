@@ -104,8 +104,8 @@ export const generatePackage = (options: {
 
   if (packageTypes) {
     const nonExistingPackageTypes = getNonExistingPackageTypeFolders(
-      sampleFilesPath,
-      packageTypes,
+      join(sampleFilesPath, packageTypes.mainFolder),
+      packageTypes.types,
     );
 
     if (nonExistingPackageTypes.length) {
@@ -121,7 +121,7 @@ export const generatePackage = (options: {
   }
 
   if (type && packageTypes) {
-    if (!isPackageTypeDefined(type, Object.keys(packageTypes))) {
+    if (!isPackageTypeDefined(type, Object.keys(packageTypes.types))) {
       throwError('Package type', { type });
     }
   }
@@ -139,7 +139,11 @@ export const generatePackage = (options: {
   copyFiles(
     packageCreationPath,
     sampleFilesPath,
-    packageTypes ? Object.values(packageTypes) : undefined,
+    packageTypes
+      ? Object.values(packageTypes.types).map((type) =>
+          join(packageTypes.mainFolder, type),
+        )
+      : undefined,
   );
 
   displayMessage('information', INFORMATION_MESSAGE['Common files copied'], {
@@ -150,7 +154,11 @@ export const generatePackage = (options: {
   if (type) {
     copyFiles(
       packageCreationPath,
-      join(sampleFilesFolderPath, packageTypes?.[type] as string),
+      join(
+        sampleFilesFolderPath,
+        packageTypes?.mainFolder as string,
+        packageTypes?.types[type] as string,
+      ),
     );
 
     displayMessage(

@@ -7,8 +7,11 @@ const packageGenerationConfiguration: PackageGenerationConfiguration = {
   sampleFilesFolderPath: './sampleFilesExample',
   libraryName: '@arondilbe',
   packageTypes: {
-    content: 'content',
-    util: 'util',
+    mainFolder: 'packageTypes',
+    types: {
+      content: 'content',
+      util: 'util',
+    },
   },
 };
 
