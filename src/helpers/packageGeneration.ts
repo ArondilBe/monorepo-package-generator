@@ -80,8 +80,12 @@ export const generatePackage = (options: {
 
   // Checking content
 
-  const { destinationFolderPath, sampleFilesFolderPath, packageTypes } =
-    packageGenerationConfiguration;
+  const {
+    destinationFolderPath,
+    sampleFilesFolderPath,
+    packageTypes,
+    libraryName,
+  } = packageGenerationConfiguration;
 
   const packageCreationPath = resolve(join(destinationFolderPath, name));
 
@@ -165,7 +169,7 @@ export const generatePackage = (options: {
   ) {
     modifyPackageJson(
       join(packageCreationPath, PACKAGE_JSON_FILE_NAME),
-      name,
+      libraryName ? `${libraryName}/${name}` : name,
       version,
     );
 
