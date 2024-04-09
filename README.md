@@ -27,9 +27,13 @@ In order to use the command, you'll also need a `.json` configuration file conta
 {
   "destinationFolderPath": "./packages",
   "sampleFilesFolderPath": "./sampleFilesExample",
+  "libraryName": "@arondilbe",
   "packageTypes": {
-    "content": "content",
-    "util": "util"
+    "mainFolder": "packageTypes",
+    "types": {
+      "content": "content",
+      "util": "util"
+    }
   }
 }
 ```
@@ -38,12 +42,20 @@ Note that the `packageTypes` property is **optional**. If not defined, **all** f
 
 - **destinationFolderPath**: `string` The path to the folder were the new packages will be created
 - **sampleFilesFolderPath**: `string` The path to the folder containing the files used as models for the new packages
-- **packageTypes**: `Record<string,string>`: An object containing pairs key/value pairs. The **key** is the **package type** and the **value** is the **folder name**. For instance if you have a package type named **util** which has its files contained in the folder **utilPackage** (the folder should be in the **sample files folder**), you'll have:
+- **libraryName**: `string` A common part to be put before the package name in the package.json file
+- **packageTypes**: An object containing information about the package types:
+
+  - **mainFolder**: `string` The name of the folder containing all the package type folders
+  - **types**: `Record<string,string>`: An object containing pairs key/value pairs. The **key** is the **package type** and the **value** is the **folder name**. For instance if you have a package type named **util** which has its files contained in the folder **utilPackage** (the folder should be in the **sample files folder**), you'll have:
 
   ```json
   "packageTypes": {
-      "util": "utilPackage"
+    "mainFolder": "packageTypes",
+    "types": {
+      "content": "content",
+      "util": "util"
     }
+  }
   ```
 
 ### How to use the package generation command ?

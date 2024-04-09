@@ -2,5 +2,8 @@ export interface PackageGenerationConfiguration {
   destinationFolderPath: string;
   sampleFilesFolderPath: string;
   libraryName?: string;
-  packageTypes?: Record<string, string>;
+  packageTypes?: {
+    mainFolder: string;
+    types: Record<string, string>;
+  };
 }
