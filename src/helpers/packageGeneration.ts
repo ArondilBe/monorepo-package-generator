@@ -160,7 +160,9 @@ export const generatePackage = (options: {
     );
   }
 
-  if (join(packageCreationPath, PACKAGE_JSON_FILE_NAME)) {
+  if (
+    doesFileOrFolderExist(join(packageCreationPath, PACKAGE_JSON_FILE_NAME))
+  ) {
     modifyPackageJson(
       join(packageCreationPath, PACKAGE_JSON_FILE_NAME),
       name,
