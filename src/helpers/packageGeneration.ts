@@ -139,11 +139,7 @@ export const generatePackage = (options: {
   copyFiles(
     packageCreationPath,
     sampleFilesPath,
-    packageTypes
-      ? Object.values(packageTypes.types).map((type) =>
-          join(packageTypes.mainFolder, type),
-        )
-      : undefined,
+    packageTypes ? [packageTypes.mainFolder] : undefined,
   );
 
   displayMessage('information', INFORMATION_MESSAGE['Common files copied'], {
